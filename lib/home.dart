@@ -1,0 +1,238 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'programlisting.dart';
+
+class PrimaryApp extends StatefulWidget {
+
+  const PrimaryApp();
+
+  @override
+  _PrimaryAppState createState() => _PrimaryAppState();
+}
+
+class _PrimaryAppState extends State<PrimaryApp> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              iconTheme: IconThemeData(color: Colors.white),
+              title:
+              const Text('The Public Square', style: TextStyle(color: Colors.white)),
+              actions: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Icon(Icons.notifications),
+                ),
+                Icon(Icons.more_vert),
+              ],
+              backgroundColor: Colors.black,
+            ),
+            drawer: Drawer(),
+            body: MyGridView()));
+  }
+}
+
+class MyGridView extends StatefulWidget {
+  const MyGridView();
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MyGridViewState();
+  }
+}
+
+class Choice {
+  const Choice({required this.title, required this.iconImageName});
+
+  final String title;
+  final String iconImageName;
+}
+
+const List<Choice> choices = const [
+  const Choice(title: 'TPS60', iconImageName: "assets/images/long.jpg"),
+  const Choice(title: 'TPS Express', iconImageName: "assets/images/short.jpg"),
+  const Choice(title: 'Common Good Blog', iconImageName: "assets/images/long.jpg"),
+  const Choice(title: 'Monthly Update', iconImageName: "assets/images/short.jpg"),
+  const Choice(title: 'Christmas', iconImageName: "assets/images/cia.png"),
+  const Choice(title: 'The Pine Podcast', iconImageName: "assets/images/cia.png"),
+];
+
+class _MyGridViewState extends State<MyGridView>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 6, vsync: this);
+    _tabController.animateTo(2);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Home'),
+        ),
+        body:
+        ListView(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.all(5.0)),
+            GridView.count(
+              crossAxisCount: 2,
+              physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+              shrinkWrap: true, // You won't see infinite size error
+              children: List.generate(choices.length, (index) {
+                return Center(
+                  child: InkWell(
+                    onTap: () {
+                      switch (index) {
+                        case CardTypes.TPS60:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing( podcastname: 'TPS60',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
+                        case CardTypes.TPSExpress:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
+                        case CardTypes.CommonGood:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
+                        case CardTypes.MonthlyUpdate:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
+                        case CardTypes.Christmas:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
+                        case CardTypes.ThePine:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
+                        default:
+                          {
+                            //statements;
+                          }
+                          break;
+                      }
+                    },
+                    child: new ChoiceCard(
+                      choice: choices[index],
+                      key: Key("title"),
+                    ),
+                  ),
+                );
+              }),
+            ),
+            // ...... other list children.
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//
+// Card details
+//
+class CardTypes {
+  static const TPS60 = 0;
+  static const TPSExpress = 1;
+  static const CommonGood = 2;
+  static const MonthlyUpdate = 3;
+  static const Christmas = 4;
+  static const ThePine = 5;
+}
+
+class ChoiceCard extends StatelessWidget {
+  const ChoiceCard({required Key key, required this.choice}) : super(key: key);
+
+  final Choice choice;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle? textStyle = Theme
+        .of(context)
+        .textTheme
+        .bodyText1;
+
+
+    return Card(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                                choice.iconImageName)
+                        ))),
+                Padding(padding: EdgeInsets.all(10.0)),
+                Text(
+                  choice.title,
+                  style: TextStyle(
+                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                // put some space at the bottom of the Card
+              ]),
+        ));
+  }
+}
+
+const SnackBar notYetImplementedSnackBar = SnackBar(
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.amberAccent,
+    content: ListTile(
+      title: Text(
+        "This page is not yet implemented.",
+        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
+      ),
+    ));
+
