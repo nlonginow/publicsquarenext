@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'programlisting.dart';
 
 class PrimaryApp extends StatefulWidget {
-
   const PrimaryApp();
 
   @override
@@ -11,7 +11,6 @@ class PrimaryApp extends StatefulWidget {
 }
 
 class _PrimaryAppState extends State<PrimaryApp> {
-
   @override
   void initState() {
     super.initState();
@@ -23,8 +22,8 @@ class _PrimaryAppState extends State<PrimaryApp> {
         home: Scaffold(
             appBar: AppBar(
               iconTheme: IconThemeData(color: Colors.white),
-              title:
-              const Text('The Public Square', style: TextStyle(color: Colors.white)),
+              title: const Text('The Public Square',
+                  style: TextStyle(color: Colors.white)),
               actions: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
@@ -56,16 +55,26 @@ class Choice {
 }
 
 const List<Choice> choices = const [
-  const Choice(title: 'TPS60', iconImageName: "assets/images/long.jpg"),
-  const Choice(title: 'TPS Express', iconImageName: "assets/images/short.jpg"),
-  const Choice(title: 'Common Good Blog', iconImageName: "assets/images/long.jpg"),
-  const Choice(title: 'Monthly Update', iconImageName: "assets/images/short.jpg"),
-  const Choice(title: 'Christmas', iconImageName: "assets/images/cia.png"),
-  const Choice(title: 'The Pine Podcast', iconImageName: "assets/images/cia.png"),
+  const Choice(
+      title: '60 Minute Program', iconImageName: "assets/images/long.jpg"),
+  const Choice(
+      title: '2 Minute Program', iconImageName: "assets/images/short.jpg"),
+  const Choice(
+      title: 'TPS Express Program', iconImageName: "assets/images/express.png"),
+  const Choice(
+      title: 'For The Common Good Blog',
+      iconImageName: "assets/images/content.png"),
+  const Choice(
+      title: 'Your Monthly Update',
+      iconImageName: "assets/images/planning.png"),
+  const Choice(
+      title: 'Christmas in America',
+      iconImageName: "assets/images/fireplace.png"),
+  const Choice(
+      title: 'The Pine Podcast', iconImageName: "assets/images/baseball.png"),
 ];
 
-class _MyGridViewState extends State<MyGridView>
-    with TickerProviderStateMixin {
+class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -82,14 +91,15 @@ class _MyGridViewState extends State<MyGridView>
         appBar: AppBar(
           title: Text('Home'),
         ),
-        body:
-        ListView(
+        body: ListView(
           children: <Widget>[
             Padding(padding: EdgeInsets.all(5.0)),
             GridView.count(
               crossAxisCount: 2,
-              physics: NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-              shrinkWrap: true, // You won't see infinite size error
+              physics: NeverScrollableScrollPhysics(),
+              // to disable GridView's scrolling
+              shrinkWrap: true,
+              // You won't see infinite size error
               children: List.generate(choices.length, (index) {
                 return Center(
                   child: InkWell(
@@ -100,7 +110,9 @@ class _MyGridViewState extends State<MyGridView>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProgramListing( podcastname: 'TPS60',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'TPS60',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -109,7 +121,9 @@ class _MyGridViewState extends State<MyGridView>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'MonthlyUpdate',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -118,7 +132,9 @@ class _MyGridViewState extends State<MyGridView>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'MonthlyUpdate',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -127,7 +143,9 @@ class _MyGridViewState extends State<MyGridView>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'MonthlyUpdate',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -136,7 +154,9 @@ class _MyGridViewState extends State<MyGridView>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'MonthlyUpdate',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -145,7 +165,9 @@ class _MyGridViewState extends State<MyGridView>
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProgramListing( podcastname: 'MonthlyUpdate',)), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'MonthlyUpdate',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -177,11 +199,12 @@ class _MyGridViewState extends State<MyGridView>
 //
 class CardTypes {
   static const TPS60 = 0;
-  static const TPSExpress = 1;
-  static const CommonGood = 2;
-  static const MonthlyUpdate = 3;
-  static const Christmas = 4;
-  static const ThePine = 5;
+  static const TPS2 = 1;
+  static const TPSExpress = 2;
+  static const CommonGood = 3;
+  static const MonthlyUpdate = 4;
+  static const Christmas = 5;
+  static const ThePine = 6;
 }
 
 class ChoiceCard extends StatelessWidget {
@@ -191,11 +214,7 @@ class ChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? textStyle = Theme
-        .of(context)
-        .textTheme
-        .bodyText1;
-
+    final TextStyle? textStyle = Theme.of(context).textTheme.bodyText1;
 
     return Card(
         color: Colors.white,
@@ -208,17 +227,15 @@ class ChoiceCard extends StatelessWidget {
                     height: 120,
                     width: 120,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.circular(10.0),
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                                choice.iconImageName)
-                        ))),
+                            image: AssetImage(choice.iconImageName)))),
                 Padding(padding: EdgeInsets.all(10.0)),
                 Text(
                   choice.title,
-                  style: TextStyle(
-                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
                 // put some space at the bottom of the Card
               ]),
@@ -235,4 +252,3 @@ const SnackBar notYetImplementedSnackBar = SnackBar(
         style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
       ),
     ));
-

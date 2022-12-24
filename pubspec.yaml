@@ -64,6 +64,11 @@ flutter:
     - assets/images/cia.png
     - assets/images/long.jpg
     - assets/images/short.jpg
+    - assets/images/express.png
+    - assets/images/content.png
+    - assets/images/planning.png
+    - assets/images/fireplace.png
+    - assets/images/baseball.png
     -
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
