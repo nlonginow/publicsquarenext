@@ -116,14 +116,25 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                             );
                           }
                           break;
+                        case CardTypes.TPS2:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'TPS2',
+                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                            );
+                          }
+                          break;
                         case CardTypes.TPSExpress:
                           {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'MonthlyUpdate',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                    podcastname: 'TPSExpress',
+                                  )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }
                           break;
@@ -133,7 +144,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'MonthlyUpdate',
+                                        podcastname: 'TPSExpress',
                                       )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                             );
                           }

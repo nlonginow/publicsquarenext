@@ -1,10 +1,10 @@
 import 'package:eof_podcast_feed/eof_podcast_feed.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'playermain.dart';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'playermain.dart';
 
 class ProgramListing extends StatefulWidget {
   final String podcastname;
@@ -17,6 +17,7 @@ class ProgramListing extends StatefulWidget {
 
 class _ProgramListingState extends State<ProgramListing> {
   String _title = "Podcast Title Original";
+  String _imageName = 'assets/images/long.jpg';
 
   @override
   void initState() {
@@ -24,6 +25,13 @@ class _ProgramListingState extends State<ProgramListing> {
       _title = "Podcast Title";
     } else {
       _title = widget.podcastname;
+    }
+    if (widget.podcastname == 'TPS60') {
+      _imageName = 'assets/images/long.jpg';
+    } else if (widget.podcastname == 'TPS2') {
+      _imageName = 'assets/images/short.jpg';
+    } else if (widget.podcastname == 'TPSExpress') {
+      _imageName = 'assets/images/express.png';
     }
     super.initState();
   }
@@ -63,7 +71,7 @@ class _ProgramListingState extends State<ProgramListing> {
                                     alignment: Alignment.center,
                                     widthFactor: 0.8,
                                     heightFactor: 1.0,
-                                    child: Image.asset('assets/images/long.jpg',
+                                    child: Image.asset(_imageName,
                                         //just change my image with your image
                                         height: 60),
                                   ),
@@ -90,12 +98,23 @@ class _ProgramListingState extends State<ProgramListing> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PlayerMain(
-                                  theTitle: snapshot.data?[index].title == null ? "title" : snapshot.data![index].title,
-                                  theUrl: snapshot.data?[index].url == null ? "url" : snapshot.data![index].url,
-                                  theCover: snapshot.data?[index].cover == null ? "cover" : snapshot.data![index].cover,
-                                  theDescription: snapshot.data?[index].description == null ? "description" : snapshot.data![index].description,
-                                )
-                            ),
+                                      theTitle:
+                                          snapshot.data?[index].title == null
+                                              ? "title"
+                                              : snapshot.data![index].title,
+                                      theUrl: snapshot.data?[index].url == null
+                                          ? "url"
+                                          : snapshot.data![index].url,
+                                      theCover:
+                                          snapshot.data?[index].cover == null
+                                              ? "cover"
+                                              : snapshot.data![index].cover,
+                                      theDescription: snapshot
+                                                  .data?[index].description ==
+                                              null
+                                          ? "description"
+                                          : snapshot.data![index].description,
+                                    )),
                           );
                         },
                       );
@@ -270,23 +289,76 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
           await EOFPodcast.fromFeed('https://thepublicsquare.libsyn.com/rss');
       var episodes = podcast.episodes;
       for (int i = 0; i < episodes.length; i++) {
-        String s = episodes[i].description;
-        int idx = s.lastIndexOf("Topic:");
-        String theDescription = s.substring(0, idx);
+        String theDescription = episodes[i].description;
+        int idx = theDescription.lastIndexOf("Topic:");
+        if (idx >= 0) {
+          theDescription = theDescription.substring(0, idx);
+        }
         String sUrl = episodes[i].url;
         int idxMp3 = sUrl.lastIndexOf(".mp3");
         String strippedUrl = sUrl.substring(0, idxMp3 + 4);
-        List parts = [s.substring(0,idx).trim(), s.substring(idx+1).trim()];
+        String title = episodes[i].title;
+        idx = title.indexOf('TPS Express');
+        // Exclude all TPS Express titles...
+        if (idx < 0) {
+          PodcastItem anItem = PodcastItem(
+              title: episodes[i].title,
+              description: theDescription,
+              pubDate: episodes[i].pubDate,
+              url: strippedUrl,
+              cover: episodes[i].cover);
+          thePrograms.add(anItem);
+        }
+      }
+      break;
+    case "TPS2":
+      var podcast = await EOFPodcast.fromFeed(
+          'http://thepublicsquare2minute.libsyn.com/rss');
+      var episodes = podcast.episodes;
+      for (int i = 0; i < episodes.length; i++) {
+        String theDescription = episodes[i].description;
+        int idx = theDescription.lastIndexOf("Topic:");
+        if (idx >= 0) {
+          theDescription = theDescription.substring(0, idx);
+        }
+        String sUrl = episodes[i].url;
+        int idxMp3 = sUrl.lastIndexOf(".mp3");
+        String strippedUrl = sUrl.substring(0, idxMp3 + 4);
         PodcastItem anItem = PodcastItem(
             title: episodes[i].title,
             description: theDescription,
             pubDate: episodes[i].pubDate,
-            url: strippedUrl, //episodes[i].url,
+            url: strippedUrl,
             cover: episodes[i].cover);
         thePrograms.add(anItem);
       }
       break;
     case "TPSExpress":
+      var podcast =
+      await EOFPodcast.fromFeed('https://thepublicsquare.libsyn.com/rss');
+      var episodes = podcast.episodes;
+      for (int i = 0; i < episodes.length; i++) {
+        String theDescription = episodes[i].description;
+        int idx = theDescription.lastIndexOf("Topic:");
+        if (idx >= 0) {
+          theDescription = theDescription.substring(0, idx);
+        }
+        String sUrl = episodes[i].url;
+        int idxMp3 = sUrl.lastIndexOf(".mp3");
+        String strippedUrl = sUrl.substring(0, idxMp3 + 4);
+        String title = episodes[i].title;
+        idx = title.indexOf('TPS Express');
+        // include only TPS Express titles...
+        if (idx >= 0) {
+          PodcastItem anItem = PodcastItem(
+              title: episodes[i].title,
+              description: theDescription,
+              pubDate: episodes[i].pubDate,
+              url: strippedUrl,
+              cover: episodes[i].cover);
+          thePrograms.add(anItem);
+        }
+      }
       break;
     default:
   }
