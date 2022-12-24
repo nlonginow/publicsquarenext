@@ -61,7 +61,7 @@ class _PlayerMainState extends State<PlayerMain> {
                   fontSize: 18),
             ),
             SizedBox(
-              height: 30,
+              height: 10,
             ),
         Container(
           height: 300,
