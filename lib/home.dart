@@ -123,7 +123,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
                                         podcastname: 'TPS2',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                      )),
                             );
                           }
                           break;
@@ -133,8 +133,8 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                    podcastname: 'TPSExpress',
-                                  )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                        podcastname: 'TPSExpress',
+                                      )),
                             );
                           }
                           break;
@@ -145,7 +145,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
                                         podcastname: 'TPSExpress',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                      )),
                             );
                           }
                           break;
@@ -155,8 +155,8 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'MonthlyUpdate',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                        podcastname: 'CommonGood',
+                                      )),
                             );
                           }
                           break;
@@ -166,8 +166,19 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'MonthlyUpdate',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                        podcastname: 'CIA',
+                                      )),
+                            );
+                          }
+                          break;
+                        case CardTypes.Christmas:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProgramListing(
+                                        podcastname: 'CIA',
+                                      )),
                             );
                           }
                           break;
@@ -177,8 +188,8 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'MonthlyUpdate',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                                        podcastname: 'ThePine',
+                                      )),
                             );
                           }
                           break;

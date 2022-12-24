@@ -1,10 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:eof_podcast_feed/eof_podcast_feed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:http/http.dart' as http;
 import 'playermain.dart';
+import 'package:intl/intl.dart';
 
 class ProgramListing extends StatefulWidget {
   final String podcastname;
@@ -335,7 +338,7 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
       break;
     case "TPSExpress":
       var podcast =
-      await EOFPodcast.fromFeed('https://thepublicsquare.libsyn.com/rss');
+          await EOFPodcast.fromFeed('https://thepublicsquare.libsyn.com/rss');
       var episodes = podcast.episodes;
       for (int i = 0; i < episodes.length; i++) {
         String theDescription = episodes[i].description;
@@ -360,7 +363,101 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         }
       }
       break;
+    case "CIA":
+      List<ChristmasItem> ciaItems = await fetchChristmasItems();
+      for (int i = 0; i < ciaItems.length; i++) {
+        String theDescription = ciaItems[i].program_description;
+        String sUrl = 'https://www.aproundtable.org/app/' + ciaItems[i].program_url;
+        String title = ciaItems[i].title;
+          PodcastItem anItem = PodcastItem(
+              title: title,
+              description: theDescription,
+              pubDate: ciaItems[i].program_date,
+              url: sUrl,
+              cover: 'https://configuremyapp.com/wp-content/uploads/2022/12/fireplace.png');
+          thePrograms.add(anItem);
+      }
+      break;
+    case "ThePine":
+      var podcast = await EOFPodcast.fromFeed('https://thepine.libsyn.com/rss');
+      var episodes = podcast.episodes;
+      for (int i = 0; i < episodes.length; i++) {
+        String theDescription = episodes[i].description;
+        int idx = theDescription.lastIndexOf("Topic:");
+        if (idx >= 0) {
+          theDescription = theDescription.substring(0, idx);
+        }
+        String sUrl = episodes[i].url;
+        int idxMp3 = sUrl.lastIndexOf(".mp3");
+        String strippedUrl = sUrl.substring(0, idxMp3 + 4);
+        PodcastItem anItem = PodcastItem(
+            title: episodes[i].title,
+            description: theDescription,
+            pubDate: episodes[i].pubDate,
+            url: strippedUrl,
+            cover: episodes[i].cover);
+        thePrograms.add(anItem);
+      }
+      break;
+
     default:
   }
   return thePrograms;
 }
+
+class ChristmasItem {
+  final String title;
+  final String program_url;
+  final String program_date;
+  final String program_description;
+
+  const ChristmasItem({
+    required this.title,
+    required this.program_url,
+    required this.program_date,
+    required this.program_description,
+  });
+
+  factory ChristmasItem.fromJson(Map<String, dynamic> json) {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime dateTime = dateFormat.parse(json['cct_modified']);
+    String formattedDate = DateFormat('MMM dd, yyyy (hh:mm)').format(dateTime);
+
+    return ChristmasItem(
+      title: json['title'],
+      program_url: json['program_url'],
+      program_date: formattedDate,
+      program_description: json['program_description'],
+    );
+  }
+
+}
+
+Future<List<ChristmasItem>> fetchChristmasItems() async {
+  String API_USERNAME = "Admin";
+  String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
+  final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
+  final base64Str = base64.encode(bytes);
+  String AUTH = "Basic " + base64Str;
+
+  final response = await http.get(
+    Uri.parse('https://configuremyapp.com/wp-json/jet-cct/podcast'),
+    headers: {
+      HttpHeaders.authorizationHeader: AUTH,
+    },);
+  if (response.statusCode == 200) {
+    List<dynamic> list = json.decode(response.body);
+    var item;
+    var myList = <ChristmasItem>[];
+    for (item in list) {
+      ChristmasItem aChristmasItem = ChristmasItem.fromJson(item);
+      myList.add(aChristmasItem);
+    }
+    return myList;
+  } else {
+    throw Exception("Failed to fetch CIA items");
+  }
+}
+
+
+
