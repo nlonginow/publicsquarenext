@@ -36,6 +36,18 @@ class _ProgramListingState extends State<ProgramListing> {
     } else if (widget.podcastname == 'TPSExpress') {
       _imageName = 'assets/images/express.png';
     }
+    else if (widget.podcastname == 'Monthly Update') {
+      _imageName = 'assets/images/planning.png';
+    }
+    else if (widget.podcastname == 'CIA') {
+      _imageName = 'assets/images/fireplace.png';
+    }
+    else if (widget.podcastname == 'The Pine Podcast') {
+      _imageName = 'assets/images/ridingthepine.png';
+    }
+    else if (widget.podcastname == 'Common Good Blog') {
+      _imageName = 'https://configuremyapp.com/wp-content/uploads/2022/10/thinking.png';
+    }
     super.initState();
   }
 
@@ -68,16 +80,23 @@ class _ProgramListingState extends State<ProgramListing> {
                           thumbnail: Container(
                               width: 50,
                               height: 95,
+                              color: Colors.white,
                               child: ClipRect(
                                 child: Container(
                                   child: Align(
                                     alignment: Alignment.center,
                                     widthFactor: 0.8,
                                     heightFactor: 1.0,
-                                    child: Image.asset(_imageName,
-                                        //just change my image with your image
-                                        height: 60),
-                                  ),
+                                    child:
+                                    Container(
+                                        //height: 120,
+                                        //width: 120,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                            borderRadius: BorderRadius.circular(30.0),
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(_imageName))))                                  ),
                                 ),
                               )),
                           title: snapshot.data?[index].title == null
@@ -394,7 +413,7 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
           thePrograms.add(anItem);
       }
       break;
-    case "ThePine":
+    case "The Pine Podcast":
       var podcast = await EOFPodcast.fromFeed('https://thepine.libsyn.com/rss');
       var episodes = podcast.episodes;
       for (int i = 0; i < episodes.length; i++) {

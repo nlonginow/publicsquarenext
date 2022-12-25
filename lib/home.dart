@@ -71,7 +71,7 @@ const List<Choice> choices = const [
       title: 'Christmas in America',
       iconImageName: "assets/images/fireplace.png"),
   const Choice(
-      title: 'The Pine Podcast', iconImageName: "assets/images/baseball.png"),
+      title: 'The Pine Podcast', iconImageName: "assets/images/ridingthepine.png"),
 ];
 
 class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
@@ -177,7 +177,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'ThePine',
+                                        podcastname: 'The Pine Podcast',
                                       )),
                             );
                           }
