@@ -46,7 +46,7 @@ class _ProgramListingState extends State<ProgramListing> {
       _imageName = 'assets/images/ridingthepine.png';
     }
     else if (widget.podcastname == 'Common Good Blog') {
-      _imageName = 'https://configuremyapp.com/wp-content/uploads/2022/10/thinking.png';
+      _imageName = 'assets/images/thinking.png';
     }
     super.initState();
   }
@@ -398,6 +398,23 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         thePrograms.add(anItem);
       }
       break;
+    case "Common Good Blog":
+      List<CommonGoodItem> commonGoodItems = await fetchCommonGoodItems();
+      print('got ' + commonGoodItems.length.toString() + ' items back');
+      for (int i = 0; i < commonGoodItems.length; i++) {
+        String theDescription = '';
+        String sUrl = commonGoodItems[i].link;
+        String postedDate = commonGoodItems[i].pubDate;
+        String title = commonGoodItems[i].title;
+        PodcastItem anItem = PodcastItem(
+            title: title,
+            description: '',
+            pubDate: postedDate,
+            url: sUrl,
+            cover: '');
+        thePrograms.add(anItem);
+      }
+      break;
     case "CIA":
       List<ChristmasItem> ciaItems = await fetchChristmasItems();
       for (int i = 0; i < ciaItems.length; i++) {
@@ -466,6 +483,49 @@ class MonthlyUpdateItem {
   }
 }
 
+class CommonGoodItem {
+  final String title;
+  final String pubDate;
+  final String link;
+
+  const CommonGoodItem({
+    required this.title,
+    required this.pubDate,
+    required this.link,
+  });
+
+  factory CommonGoodItem.fromJson(Map<String, dynamic> json) {
+    return CommonGoodItem(
+      title: json['title']['rendered'],
+      link: json['link'],
+      pubDate: json['date'],
+    );
+  }
+}
+
+Future<List<CommonGoodItem>> fetchCommonGoodItems() async {
+  final response = await http.get(
+    Uri.parse('https://aproundtable.org/wp-json/wp/v2/posts?tags=11'));
+  print('got response = ' + response.statusCode.toString());
+  if (response.statusCode == 200) {
+    print('getting decode of json');
+    List<dynamic> list = json.decode(response.body);
+    print('list length is ' + list.length.toString());
+    var item;
+    var myList = <CommonGoodItem>[];
+    for (item in list) {
+      print('about to decode ');
+      CommonGoodItem aCommonGoodItem = CommonGoodItem.fromJson(item);
+      print('done decoding');
+      myList.add(aCommonGoodItem);
+    }
+    return myList;
+  } else {
+    throw Exception("Failed to fetch Common Good items");
+  }
+}
+
+
 class ChristmasItem {
   final String title;
   final String program_url;
@@ -491,7 +551,6 @@ class ChristmasItem {
       program_description: json['program_description'],
     );
   }
-
 }
 
 Future<List<MonthlyUpdateItem>> fetchMonthlyUpdateItems() async {

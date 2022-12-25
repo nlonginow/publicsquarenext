@@ -69,6 +69,7 @@ flutter:
     - assets/images/planning.png
     - assets/images/fireplace.png
     - assets/images/ridingthepine.png
+    - assets/images/thinking.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
