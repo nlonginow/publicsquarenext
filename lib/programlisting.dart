@@ -363,6 +363,22 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         }
       }
       break;
+    case "Monthly Update":
+      List<MonthlyUpdateItem> monthlyUpdateItems = await fetchMonthlyUpdateItems();
+      for (int i = 0; i < monthlyUpdateItems.length; i++) {
+        String theDescription = 'Your Monthly Update is a regular service from the American Policy Roundtable.';
+        String sUrl = monthlyUpdateItems[i].pdfUrl;
+        String postedDate = monthlyUpdateItems[i].postedDate;
+        String title = 'Your Monthly Update for ' + postedDate;
+        PodcastItem anItem = PodcastItem(
+            title: title,
+            description: theDescription,
+            pubDate: postedDate,
+            url: sUrl,
+            cover: monthlyUpdateItems[i].jpgUrl);
+        thePrograms.add(anItem);
+      }
+      break;
     case "CIA":
       List<ChristmasItem> ciaItems = await fetchChristmasItems();
       for (int i = 0; i < ciaItems.length; i++) {
@@ -399,10 +415,36 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         thePrograms.add(anItem);
       }
       break;
-
     default:
   }
   return thePrograms;
+}
+
+class MonthlyUpdateItem {
+  final String title;
+  final String pdfUrl;
+  final String jpgUrl;
+  final String postedDate;
+
+  const MonthlyUpdateItem({
+    required this.title,
+    required this.pdfUrl,
+    required this.jpgUrl,
+    required this.postedDate,
+  });
+
+  factory MonthlyUpdateItem.fromJson(Map<String, dynamic> json) {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime dateTime = dateFormat.parse(json['cct_modified']);
+    String formattedDate = DateFormat('MMM dd, yyyy (hh:mm)').format(dateTime);
+
+    return MonthlyUpdateItem(
+      title: 'Your Monthly Update',
+      pdfUrl: json['pdffile']['url'],
+      jpgUrl: json['tilegraphic']['url'],
+      postedDate: formattedDate,
+    );
+  }
 }
 
 class ChristmasItem {
@@ -431,6 +473,32 @@ class ChristmasItem {
     );
   }
 
+}
+
+Future<List<MonthlyUpdateItem>> fetchMonthlyUpdateItems() async {
+  String API_USERNAME = "Admin";
+  String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
+  final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
+  final base64Str = base64.encode(bytes);
+  String AUTH = "Basic " + base64Str;
+
+  final response = await http.get(
+    Uri.parse('https://configuremyapp.com/wp-json/jet-cct/tpsmonthlyupdate'),
+    headers: {
+      HttpHeaders.authorizationHeader: AUTH,
+    },);
+  if (response.statusCode == 200) {
+    List<dynamic> list = json.decode(response.body);
+    var item;
+    var myList = <MonthlyUpdateItem>[];
+    for (item in list) {
+      MonthlyUpdateItem aMonthlyUpdateItem = MonthlyUpdateItem.fromJson(item);
+      myList.add(aMonthlyUpdateItem);
+    }
+    return myList;
+  } else {
+    throw Exception("Failed to fetch Monthly Update items");
+  }
 }
 
 Future<List<ChristmasItem>> fetchChristmasItems() async {

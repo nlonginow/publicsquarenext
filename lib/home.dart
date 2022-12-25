@@ -144,7 +144,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'TPSExpress',
+                                        podcastname: 'Common Good Blog',
                                       )),
                             );
                           }
@@ -155,18 +155,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProgramListing(
-                                        podcastname: 'CommonGood',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.Christmas:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'CIA',
+                                        podcastname: 'Monthly Update',
                                       )),
                             );
                           }
