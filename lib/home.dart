@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:publicsquarenext/register.dart';
 
 import 'programlisting.dart';
 
@@ -11,6 +12,8 @@ class PrimaryApp extends StatefulWidget {
 }
 
 class _PrimaryAppState extends State<PrimaryApp> {
+  var selectedItem = '';
+
   @override
   void initState() {
     super.initState();
@@ -25,16 +28,38 @@ class _PrimaryAppState extends State<PrimaryApp> {
               title: const Text('The Public Square',
                   style: TextStyle(color: Colors.white)),
               actions: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Icon(Icons.notifications),
-                ),
-                Icon(Icons.more_vert),
+                PopupMenuButton(onSelected: (value) {
+                  // your logic
+                  setState(() {
+                    selectedItem = value.toString();
+                  });
+                  print(value);
+                  Navigator.pushNamed(context, value.toString());
+                }, itemBuilder: (BuildContext bc) {
+                  return const [
+                    PopupMenuItem(
+                      child: Text("Register"),
+                      value: '/register',
+                    ),
+                    PopupMenuItem(
+                      child: Text("Support"),
+                      value: '/support',
+                    ),
+                    PopupMenuItem(
+                      child: Text("About"),
+                      value: '/about',
+                    ),
+                  ];
+                })
               ],
               backgroundColor: Colors.black,
             ),
             drawer: Drawer(),
-            body: MyGridView()));
+            body: MyGridView()),
+      routes: {
+        '/register': (context) => Register(),
+      },
+    );
   }
 }
 
