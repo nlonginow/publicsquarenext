@@ -30,23 +30,23 @@ class _ProgramListingState extends State<ProgramListing> {
       _title = widget.podcastname;
     }
     if (widget.podcastname == 'TPS60') {
-      _imageName = 'assets/images/long.jpg';
+      _imageName = 'assets/images/tps60.jpg';
     } else if (widget.podcastname == 'TPS2') {
       _imageName = 'assets/images/short.jpg';
     } else if (widget.podcastname == 'TPSExpress') {
-      _imageName = 'assets/images/express.png';
+      _imageName = 'assets/images/express.jpg';
     }
     else if (widget.podcastname == 'Monthly Update') {
-      _imageName = 'assets/images/planning.png';
+      _imageName = 'assets/images/monthly.jpg';
     }
     else if (widget.podcastname == 'CIA') {
-      _imageName = 'assets/images/fireplace.png';
+      _imageName = 'assets/images/cia.jpg';
     }
     else if (widget.podcastname == 'The Pine Podcast') {
       _imageName = 'assets/images/ridingthepine.png';
     }
     else if (widget.podcastname == 'Common Good Blog') {
-      _imageName = 'assets/images/thinking.png';
+      _imageName = 'assets/images/blog.jpg';
     }
     super.initState();
   }

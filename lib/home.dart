@@ -56,20 +56,20 @@ class Choice {
 
 const List<Choice> choices = const [
   const Choice(
-      title: '60 Minute Program', iconImageName: "assets/images/long.jpg"),
+      title: '60 Minute Program', iconImageName: "assets/images/tps60.jpg"),
   const Choice(
       title: '2 Minute Program', iconImageName: "assets/images/short.jpg"),
   const Choice(
-      title: 'TPS Express Program', iconImageName: "assets/images/express.png"),
+      title: 'TPS Express Program', iconImageName: "assets/images/express.jpg"),
   const Choice(
       title: 'For The Common Good Blog',
-      iconImageName: "assets/images/content.png"),
+      iconImageName: "assets/images/blog.jpg"),
   const Choice(
       title: 'Your Monthly Update',
-      iconImageName: "assets/images/planning.png"),
+      iconImageName: "assets/images/monthly.jpg"),
   const Choice(
       title: 'Christmas in America',
-      iconImageName: "assets/images/fireplace.png"),
+      iconImageName: "assets/images/cia.jpg"),
   const Choice(
       title: 'The Pine Podcast', iconImageName: "assets/images/ridingthepine.png"),
 ];
@@ -240,7 +240,7 @@ class ChoiceCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
                         image: DecorationImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitHeight,
                             image: AssetImage(choice.iconImageName)))),
                 Padding(padding: EdgeInsets.all(10.0)),
                 Text(
