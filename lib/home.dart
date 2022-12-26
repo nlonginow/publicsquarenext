@@ -54,7 +54,6 @@ class _PrimaryAppState extends State<PrimaryApp> {
               ],
               backgroundColor: Colors.black,
             ),
-            drawer: Drawer(),
             body: MyGridView()),
       routes: {
         '/register': (context) => Register(),
@@ -111,12 +110,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Home'),
-        ),
-        body: ListView(
+    return ListView(
           children: <Widget>[
             Padding(padding: EdgeInsets.all(5.0)),
             GridView.count(
@@ -224,8 +218,6 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
             ),
             // ...... other list children.
           ],
-        ),
-      ),
     );
   }
 }
