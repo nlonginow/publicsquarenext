@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:eof_podcast_feed/eof_podcast_feed.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'playermain.dart';
 import 'package:intl/intl.dart';
+import 'package:publicsquarenext/displaypage.dart';
+
+import 'displaypdfpage.dart';
+import 'playermain.dart';
 
 class ProgramListing extends StatefulWidget {
   final String podcastname;
@@ -35,17 +39,13 @@ class _ProgramListingState extends State<ProgramListing> {
       _imageName = 'assets/images/short.jpg';
     } else if (widget.podcastname == 'TPSExpress') {
       _imageName = 'assets/images/express.jpg';
-    }
-    else if (widget.podcastname == 'Monthly Update') {
+    } else if (widget.podcastname == 'Monthly Update') {
       _imageName = 'assets/images/monthly.jpg';
-    }
-    else if (widget.podcastname == 'CIA') {
+    } else if (widget.podcastname == 'CIA') {
       _imageName = 'assets/images/cia.jpg';
-    }
-    else if (widget.podcastname == 'The Pine Podcast') {
+    } else if (widget.podcastname == 'The Pine Podcast') {
       _imageName = 'assets/images/ridingthepine.png';
-    }
-    else if (widget.podcastname == 'Common Good Blog') {
+    } else if (widget.podcastname == 'Common Good Blog') {
       _imageName = 'assets/images/blog.jpg';
     }
     super.initState();
@@ -84,19 +84,20 @@ class _ProgramListingState extends State<ProgramListing> {
                               child: ClipRect(
                                 child: Container(
                                   child: Align(
-                                    alignment: Alignment.center,
-                                    widthFactor: 0.8,
-                                    heightFactor: 1.0,
-                                    child:
-                                    Container(
-                                        //height: 120,
-                                        //width: 120,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                            borderRadius: BorderRadius.circular(30.0),
-                                            image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(_imageName))))                                  ),
+                                      alignment: Alignment.center,
+                                      widthFactor: 0.8,
+                                      heightFactor: 1.0,
+                                      child: Container(
+                                          //height: 120,
+                                          //width: 120,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(
+                                                      _imageName))))),
                                 ),
                               )),
                           title: snapshot.data?[index].title == null
@@ -116,28 +117,67 @@ class _ProgramListingState extends State<ProgramListing> {
                               : snapshot.data![index].cover,
                         ),
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PlayerMain(
-                                      theTitle:
-                                          snapshot.data?[index].title == null
-                                              ? "title"
-                                              : snapshot.data![index].title,
-                                      theUrl: snapshot.data?[index].url == null
-                                          ? "url"
-                                          : snapshot.data![index].url,
-                                      theCover:
-                                          snapshot.data?[index].cover == null
-                                              ? "cover"
-                                              : snapshot.data![index].cover,
-                                      theDescription: snapshot
-                                                  .data?[index].description ==
-                                              null
-                                          ? "description"
-                                          : snapshot.data![index].description,
-                                    )),
-                          );
+                          if (widget.podcastname == 'Monthly Update') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DisplayRemotePDF(
+                                    theUrl:
+                                    snapshot.data?[index].url == null
+                                        ? "url"
+                                        : snapshot.data![index].url,
+                                    theTitle:
+                                    snapshot.data?[index].title == null
+                                        ? "title"
+                                        : snapshot.data![index].title, title: 'title',
+
+                                  )),
+                            );
+                          }
+                          else if (widget.podcastname == 'Common Good Blog') {
+                            if (snapshot.data?[index].url != null) {
+                              print('url is ' + snapshot.data![index].url);
+                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DisplayRemotePage(
+                                    theUrl:
+                                    snapshot.data?[index].url == null
+                                        ? "url"
+                                        : snapshot.data![index].url,
+                                    theTitle:
+                                    snapshot.data?[index].title == null
+                                        ? "title"
+                                        : snapshot.data![index].title,
+
+                                  )),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PlayerMain(
+                                        theTitle:
+                                            snapshot.data?[index].title == null
+                                                ? "title"
+                                                : snapshot.data![index].title,
+                                        theUrl:
+                                            snapshot.data?[index].url == null
+                                                ? "url"
+                                                : snapshot.data![index].url,
+                                        theCover:
+                                            snapshot.data?[index].cover == null
+                                                ? "cover"
+                                                : snapshot.data![index].cover,
+                                        theDescription: snapshot
+                                                    .data?[index].description ==
+                                                null
+                                            ? "description"
+                                            : snapshot.data![index].description,
+                                      )),
+                            );
+                          }
                         },
                       );
                     });
@@ -383,9 +423,11 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
       }
       break;
     case "Monthly Update":
-      List<MonthlyUpdateItem> monthlyUpdateItems = await fetchMonthlyUpdateItems();
+      List<MonthlyUpdateItem> monthlyUpdateItems =
+          await fetchMonthlyUpdateItems();
       for (int i = 0; i < monthlyUpdateItems.length; i++) {
-        String theDescription = 'Your Monthly Update is a regular service from the American Policy Roundtable.';
+        String theDescription =
+            'Your Monthly Update is a regular service from the American Policy Roundtable.';
         String sUrl = monthlyUpdateItems[i].pdfUrl;
         String postedDate = monthlyUpdateItems[i].postedDate;
         String title = 'Your Monthly Update for ' + postedDate;
@@ -419,15 +461,17 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
       List<ChristmasItem> ciaItems = await fetchChristmasItems();
       for (int i = 0; i < ciaItems.length; i++) {
         String theDescription = ciaItems[i].program_description;
-        String sUrl = 'https://www.aproundtable.org/app/' + ciaItems[i].program_url;
+        String sUrl =
+            'https://www.aproundtable.org/app/' + ciaItems[i].program_url;
         String title = ciaItems[i].title;
-          PodcastItem anItem = PodcastItem(
-              title: title,
-              description: theDescription,
-              pubDate: ciaItems[i].program_date,
-              url: sUrl,
-              cover: 'https://configuremyapp.com/wp-content/uploads/2022/12/fireplace.png');
-          thePrograms.add(anItem);
+        PodcastItem anItem = PodcastItem(
+            title: title,
+            description: theDescription,
+            pubDate: ciaItems[i].program_date,
+            url: sUrl,
+            cover:
+                'https://configuremyapp.com/wp-content/uploads/2022/12/fireplace.png');
+        thePrograms.add(anItem);
       }
       break;
     case "The Pine Podcast":
@@ -504,8 +548,8 @@ class CommonGoodItem {
 }
 
 Future<List<CommonGoodItem>> fetchCommonGoodItems() async {
-  final response = await http.get(
-    Uri.parse('https://aproundtable.org/wp-json/wp/v2/posts?tags=11'));
+  final response = await http
+      .get(Uri.parse('https://aproundtable.org/wp-json/wp/v2/posts?tags=11'));
   print('got response = ' + response.statusCode.toString());
   if (response.statusCode == 200) {
     print('getting decode of json');
@@ -524,7 +568,6 @@ Future<List<CommonGoodItem>> fetchCommonGoodItems() async {
     throw Exception("Failed to fetch Common Good items");
   }
 }
-
 
 class ChristmasItem {
   final String title;
@@ -564,7 +607,8 @@ Future<List<MonthlyUpdateItem>> fetchMonthlyUpdateItems() async {
     Uri.parse('https://configuremyapp.com/wp-json/jet-cct/tpsmonthlyupdate'),
     headers: {
       HttpHeaders.authorizationHeader: AUTH,
-    },);
+    },
+  );
   if (response.statusCode == 200) {
     List<dynamic> list = json.decode(response.body);
     var item;
@@ -590,7 +634,8 @@ Future<List<ChristmasItem>> fetchChristmasItems() async {
     Uri.parse('https://configuremyapp.com/wp-json/jet-cct/podcast'),
     headers: {
       HttpHeaders.authorizationHeader: AUTH,
-    },);
+    },
+  );
   if (response.statusCode == 200) {
     List<dynamic> list = json.decode(response.body);
     var item;
@@ -604,6 +649,3 @@ Future<List<ChristmasItem>> fetchChristmasItems() async {
     throw Exception("Failed to fetch CIA items");
   }
 }
-
-
-
