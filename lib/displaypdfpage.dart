@@ -3,15 +3,27 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 //import 'package:permission_handler/permission_handler.dart';
+
+const List<Color> _kDefaultRainbowColors = const [
+  Colors.red,
+  Colors.orange,
+  Colors.yellow,
+  Colors.green,
+  Colors.blue,
+  Colors.indigo,
+  Colors.purple,
+];
 
 class DisplayRemotePDF extends StatefulWidget {
   final String title;
   final String theUrl;
+  final String theTitle;
 
   DisplayRemotePDF(
       {required this.title,
-        required this.theUrl, required String theTitle});
+        required this.theUrl, required this.theTitle});
 
   @override
   _DisplayRemotePDFState createState() => _DisplayRemotePDFState();
@@ -147,18 +159,25 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
         //Replace with your loading UI
         return Scaffold(
           appBar: AppBar(
-            title: Text("Demo"),
+            title: Text("loading..."),
           ),
-          body: Text(
-            "Loading..",
-            style: TextStyle(fontSize: 20),
+          body: Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 75, left: 20, right: 20),
+              child: LoadingIndicator(
+                indicatorType: Indicator.ballScaleMultiple,
+                colors: _kDefaultRainbowColors,
+                strokeWidth: 4.0,
+                pathBackgroundColor:
+                Colors.black45,
+              )
           ),
         );
       } else {
         //Replace Error UI
         return Scaffold(
           appBar: AppBar(
-            title: Text("Demo"),
+            title: Text("loading..."),
           ),
           body: Text(
             "PDF Not Available",

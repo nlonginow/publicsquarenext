@@ -129,7 +129,11 @@ class _ProgramListingState extends State<ProgramListing> {
                                     theTitle:
                                     snapshot.data?[index].title == null
                                         ? "title"
-                                        : snapshot.data![index].title, title: 'title',
+                                        : snapshot.data![index].title,
+                                      title:
+                                      snapshot.data?[index].title == null
+                                          ? "title"
+                                          : snapshot.data![index].title,
 
                                   )),
                             );
