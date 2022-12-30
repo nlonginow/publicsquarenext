@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
+import 'package:flutter/services.dart';
+
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
@@ -25,6 +27,7 @@ class _RegisterState extends State<Register> {
   late TextEditingController _emailTextFieldController;
   bool isLoadingAfterRegister = false;
   bool isLoading = true;
+  var appVersion;
 
   Future<void> getLocalRegistrationData() async {
     final prefs = await SharedPreferences.getInstance();
