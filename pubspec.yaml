@@ -58,8 +58,8 @@ dev_dependencies:
   path_provider: any
   loading_indicator: ^3.1.0
   custom_pop_up_menu: ^1.2.4
-  #permission_handler: 4.4.0
-
+  wheel_chooser: ^1.0.0
+  shared_preferences: ^2.0.15
 
 
 # For information on the generic Dart part of this file, see the
