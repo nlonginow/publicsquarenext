@@ -1,9 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wheel_chooser/wheel_chooser.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _RegisterState extends State<Register> {
   late TextEditingController _firstNameTextFieldController;
   late TextEditingController _lastNameTextFieldController;
   late TextEditingController _emailTextFieldController;
+  bool isLoadingAfterRegister = false;
   bool isLoading = true;
 
   Future<void> getLocalRegistrationData() async {
@@ -81,8 +83,7 @@ class _RegisterState extends State<Register> {
       regMessage = 'You are already registered.';
       regState = true;
       regColor = Colors.teal;
-    }
-    else {
+    } else {
       regMessage = 'Not Registered.';
       regState = false;
       regColor = Colors.red;
@@ -97,10 +98,9 @@ class _RegisterState extends State<Register> {
     return userExists;
   }
 
-
 // save user registration locally (not stored to Firebase, etc)
-  Future<void> saveDataLocally(String firstName, String lastName, String email,
-      String state) async {
+  Future<void> saveDataLocally(
+      String firstName, String lastName, String email, String state) async {
 // obtain shared preferences
     final prefs = await SharedPreferences.getInstance();
     // update local values
@@ -128,17 +128,11 @@ class _RegisterState extends State<Register> {
     return Scaffold(
         appBar: new AppBar(
             title:
-            Text("Register", style: TextStyle(fontWeight: FontWeight.w700)),
+                Text("Register", style: TextStyle(fontWeight: FontWeight.w700)),
             centerTitle: true),
         body: Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(20),
           color: Colors.white,
           child: Container(
@@ -150,17 +144,17 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(
-                            top: 10.0, left: 20.0, bottom: 10.0),
-                        child: isLoading ?
-                        Center(child: CircularProgressIndicator()) :
-                        new Text(
-                          widget.userIsRegisteredMessage,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: widget.userRegistrationColor,
-                            fontSize: 16.0,
-                          ),
-                        ),
+                            top: 5.0, left: 20.0, bottom: 5.0),
+                        child: isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : new Text(
+                                widget.userIsRegisteredMessage,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: widget.userRegistrationColor,
+                                  fontSize: 14.0,
+                                ),
+                              ),
                       ),
                     ),
                   ],
@@ -192,7 +186,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding:
-                        const EdgeInsets.only(left: 20.0, bottom: 25.0),
+                            const EdgeInsets.only(left: 20.0, bottom: 25.0),
                         child: new TextField(
                           controller: _lastNameTextFieldController,
                           autocorrect: false,
@@ -214,7 +208,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding:
-                        const EdgeInsets.only(left: 20.0, bottom: 25.0),
+                            const EdgeInsets.only(left: 20.0, bottom: 25.0),
                         child: new TextField(
                           controller: _emailTextFieldController,
                           autocorrect: false,
@@ -230,18 +224,15 @@ class _RegisterState extends State<Register> {
                     ),
                   ],
                 ),
-                Row(
-                    children: <Widget>[
-                      new Expanded(
-
-                          child: new Center(
-
-                            child: new Text("State",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                          ))
-                    ]),
+                Row(children: <Widget>[
+                  new Expanded(
+                      child: new Center(
+                    child: new Text("State",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ))
+                ]),
                 Divider(
-                  height: 24.0,
+                  height: 12.0,
                   color: Colors.grey,
                 ),
                 Row(
@@ -253,9 +244,7 @@ class _RegisterState extends State<Register> {
                         child: new WheelChooser(
                           horizontal: true,
                           onValueChanged: (s) =>
-                          {
-                            widget.chosenState = s.toString()
-                          },
+                              {widget.chosenState = s.toString()},
                           unSelectTextStyle: TextStyle(color: Colors.grey),
                           datas: [
                             "AL",
@@ -313,48 +302,54 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
                 Divider(
-                  height: 34.0,
+                  height: 24.0,
                   color: Colors.black54,
                 ),
-
                 new Wrap(
                   children: <Widget>[
                     new ElevatedButton(
                         onPressed: () async {
-                          print(_firstNameTextFieldController.text + ' ' +
-                              _lastNameTextFieldController.text + ' ' +
-                              _emailTextFieldController.text + ' ' +
+                          print('sending reg for: ' +
+                              _firstNameTextFieldController.text +
+                              ' ' +
+                              _lastNameTextFieldController.text +
+                              ' ' +
+                              _emailTextFieldController.text +
+                              ' ' +
                               widget.chosenState);
-                          if (widget.userRegisteredState == false) {
-                            int statusCode = await sendRegistration(
-                                _firstNameTextFieldController.text,
-                                _lastNameTextFieldController.text,
-                                _emailTextFieldController.text,
-                                widget.chosenState);
-                            print(statusCode);
+                          setState(() {
+                            isLoadingAfterRegister = true;
+                          });
+
+                          int statusCode = await sendRegistration(
+                              context,
+                              _firstNameTextFieldController.text,
+                              _lastNameTextFieldController.text,
+                              _emailTextFieldController.text,
+                              widget.chosenState);
+                          print(statusCode);
+                          setState(() {
+                            isLoadingAfterRegister = false;
                             if (statusCode == 200) {
+                              widget.userRegistrationColor = Colors.green;
                               widget.userIsRegisteredMessage =
-                              "Registration successful.";
-                            }
-                            else if (statusCode == 202) {
-                              widget.userIsRegisteredMessage = "User already registered.";
-                            }
-                            else {
+                                  'Registration was successful.';
+                            } else if (statusCode == 202) {
+                              widget.userRegistrationColor = Colors.black;
                               widget.userIsRegisteredMessage =
-                              "Unable to complete Registration. Please try again.";
+                                  'Did not register. You are already registered.';
+                            } else {
+                              widget.userRegistrationColor = Colors.red;
+                              widget.userIsRegisteredMessage =
+                                  'Problem registering. Please try again.';
                             }
-                            saveDataLocally(_firstNameTextFieldController.text,
-                                _lastNameTextFieldController.text,
-                                _emailTextFieldController.text,
-                                widget.chosenState);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                registrationSavedSnackBar);
-                            //Navigator.of(context).pop();
-                          }
-                          else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                alreadyRegisteredSnackBar);
-                          }
+                          });
+                          saveDataLocally(
+                              _firstNameTextFieldController.text,
+                              _lastNameTextFieldController.text,
+                              _emailTextFieldController.text,
+                              widget.chosenState);
+                          //Navigator.of(context).pop();
                         },
                         child: Text(
                           "Register Now",
@@ -363,7 +358,7 @@ class _RegisterState extends State<Register> {
                         style: ButtonStyle(
                           padding: MaterialStateProperty.resolveWith<
                               EdgeInsetsGeometry>(
-                                (Set<MaterialState> states) {
+                            (Set<MaterialState> states) {
                               return EdgeInsets.only(
                                   left: 40.0,
                                   right: 40.0,
@@ -374,10 +369,93 @@ class _RegisterState extends State<Register> {
                         )),
                   ],
                 ),
+                Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20.0, left: 20.0, bottom: 5.0),
+                        child: isLoadingAfterRegister
+                            ? Center(child: CircularProgressIndicator())
+                            : new Text(''),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ));
+  }
+
+  Future<int> sendRegistration(context, String firstName, String lastName,
+      String email, String chosenState) async {
+    String API_USERNAME = "Admin";
+    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
+    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
+    final base64Str = base64.encode(bytes);
+    String AUTH = "Basic " + base64Str;
+    DateTime now = new DateTime.now();
+    int statusCodeResponse = 404;
+
+    isLoadingAfterRegister = true;
+
+    print('starting send reg: get existing users');
+    var aResponse = await http.get(
+        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
+        headers: <String, String>{
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'authorization': AUTH
+        });
+
+    bool userExists = false;
+    if (aResponse.statusCode == 200) {
+      List<dynamic> list = json.decode(aResponse.body);
+      var item;
+      for (item in list) {
+        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
+        print('compare: ' + anAppUserItem.email + ' to ' + email);
+        if (anAppUserItem.email == email) {
+          print('***** found it');
+          userExists = true;
+          statusCodeResponse = 202;
+          break;
+        }
+      }
+      if (userExists == false) {
+        String uriStr = "https://configuremyapp.com/wp-json/jet-cct/appusers/";
+        print("POSTING to " + uriStr);
+        var response = await http.post(
+          Uri.parse(uriStr),
+          headers: <String, String>{
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'authorization': AUTH
+          },
+          body: jsonEncode(<String, String>{
+            'first_name': firstName,
+            'last_name': lastName,
+            'email': email,
+            'state': chosenState,
+            'app_version': 'Flutter Android',
+            'date_registered': now.toString(),
+          }),
+        );
+        statusCodeResponse = response.statusCode;
+      } else {
+        statusCodeResponse = 202;
+      }
+    }
+    if (statusCodeResponse == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(registrationSavedSnackBar);
+    } else if (statusCodeResponse == 202) {
+      ScaffoldMessenger.of(context).showSnackBar(registrationExistsSnackBar);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(registrationFailedSnackBar);
+    }
+    isLoadingAfterRegister = false;
+    return statusCodeResponse;
   }
 }
 
@@ -401,90 +479,32 @@ class AppUserItem {
   }
 }
 
-int sendRegistration(String firstName, String lastName,
-    String email, String chosenState) {
-  String API_USERNAME = "Admin";
-  String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
-  final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
-  final base64Str = base64.encode(bytes);
-  String AUTH = "Basic " + base64Str;
-  DateTime now = new DateTime.now();
-  int statusCodeResponse = 404;
+const SnackBar registrationFailedSnackBar = SnackBar(
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.deepOrange,
+    content: ListTile(
+      title: Text(
+        "Failure attempting to register; please try again.",
+        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
+      ),
+    ));
 
-  print('starting send reg');
-  http.Response aResponse = http.get(
-      Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
-      headers: <String, String>{
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'authorization': AUTH
-      }) as http.Response;
+const SnackBar registrationSavedSnackBar = SnackBar(
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.green,
+    content: ListTile(
+      title: Text(
+        "Registration successful",
+        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
+      ),
+    ));
 
-  bool userExists = false;
-  if (aResponse.statusCode == 200) {
-    List<dynamic> list = json.decode(aResponse.body);
-    var item;
-    for (item in list) {
-      AppUserItem anAppUserItem = AppUserItem.fromJson(item);
-      print('compare: ' + anAppUserItem.email + ' to ' + email);
-      if (anAppUserItem.email == email) {
-        print('***** found it');
-        userExists = true;
-        statusCodeResponse = 200;
-        break;
-      }
-    }
-    print('user exists extra check ' + userExists.toString());
-    if (userExists == false) {
-      String uriStr = "https://configuremyapp.com/wp-json/jet-cct/appusers/";
-      print("POSTING to " + uriStr);
-      http.Response response = http.post(
-        Uri.parse(uriStr),
-        headers: <String, String>{
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'authorization': AUTH
-        },
-        body: jsonEncode(<String, String>{
-          'first_name': firstName,
-          'last_name': lastName,
-          'email': email,
-          'state': chosenState,
-          'app_version': 'Flutter Android',
-          'date_registered': now.toString(),
-        }),
-      ) as http.Response;
-      statusCodeResponse = response.statusCode;
-    }
-    else {
-      print('already registered, did not do another');
-      statusCodeResponse = 202;
-    }
-  }
-  return statusCodeResponse;
-}
-
-  const SnackBar registrationSavedSnackBar = SnackBar(
-      duration: Duration(seconds: 2),
-      backgroundColor: Colors.deepOrange,
-      content: ListTile(
-        title: Text(
-          "Registration successful",
-          style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.normal),
-        ),
-      ));
-
-  const SnackBar alreadyRegisteredSnackBar = SnackBar(
-      duration: Duration(seconds: 2),
-      backgroundColor: Colors.deepOrange,
-      content: ListTile(
-        title: Text(
-          "You are already registered.",
-          style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.normal),
-        ),
-      ));
-
+const SnackBar registrationExistsSnackBar = SnackBar(
+    duration: Duration(seconds: 2),
+    backgroundColor: Colors.amber,
+    content: ListTile(
+      title: Text(
+        "You are already registered.",
+        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
+      ),
+    ));
