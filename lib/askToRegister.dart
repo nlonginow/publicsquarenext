@@ -25,6 +25,13 @@ class _AskToRegisterState extends State<AskToRegister> {
 
     // When a BuildContext is used from a StatefulWidget, the mounted property
     // must be checked after an asynchronous gap.
+    // don't really care who the caller was in the return... if we got here,
+    // then it was from the ask to register page and we can pop back
+    // to the prior page which will be the displaypdf.
+    // tree
+    // displaypdf (which already preloaded the pdf file)
+    //   asktoregiser
+    //     register (drops back to asktoregister)
     if (!mounted) return;
     Navigator.of(context).pop();
   }

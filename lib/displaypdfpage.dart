@@ -127,9 +127,6 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
         Navigator.push(
           context, MaterialPageRoute(builder: (context) => AskToRegister()));
       }
-      else {
-
-      }
       setState(() {});
     });
     super.initState();

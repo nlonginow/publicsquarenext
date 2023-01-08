@@ -139,10 +139,6 @@ class _RegisterState extends State<Register> {
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context, 'Caller is ' + widget.sourcePage);
-//                Navigator.push(
-//                  context,
-//                  MaterialPageRoute(builder: (context) => PrimaryApp()),
-//                );
               },
               icon: Icon(Icons.arrow_back), //replace with our own icon data.
             ),
