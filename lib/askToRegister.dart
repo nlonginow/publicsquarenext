@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:publicsquarenext/home.dart';
 import 'package:publicsquarenext/register.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AskToRegister extends StatefulWidget {
   @override
@@ -11,8 +15,76 @@ class AskToRegister extends StatefulWidget {
 
 class _AskToRegisterState extends State<AskToRegister> {
 
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Register(sourcePage: 'ASKTOREGISTER')),
+    );
+
+    // When a BuildContext is used from a StatefulWidget, the mounted property
+    // must be checked after an asynchronous gap.
+    if (!mounted) return;
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    print('did update called');
+  }
+
+  Future<bool> userIsRegistered() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> items = [];
+    // no local registration? then must register...
+    var email = prefs.getString('email') ?? '';
+    if (email == null || email == '') {
+      return false;
+    }
+
+    String API_USERNAME = "Admin";
+    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
+    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
+    final base64Str = base64.encode(bytes);
+    String AUTH = "Basic " + base64Str;
+    DateTime now = new DateTime.now();
+
+    final response = await http.get(
+        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
+        headers: <String, String>{
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'authorization': AUTH
+        });
+
+    print('checking if already registered');
+    bool userExists = false;
+    if (response.statusCode == 200) {
+      List<dynamic> list = json.decode(response.body);
+      var item;
+      var myList = <AppUserItem>[];
+      for (item in list) {
+        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
+        print('comparing ' + email + ' to ' + anAppUserItem.email);
+        if (anAppUserItem.email == email) {
+          userExists = true;
+          break;
+        }
+      }
+    }
+    return userExists;
+  }
+
   @override
   void initState() {
+    userIsRegistered().then((result) {
+      print("userisregistered result: $result");
+      if (result == true) {  // then we got here as a Pop from Register page; pop back to the PDF page
+        Navigator.of(context).pop();
+      }
+    }
+    );
     super.initState();
   }
 
@@ -60,13 +132,16 @@ class _AskToRegisterState extends State<AskToRegister> {
                 new Wrap(
                   children: <Widget>[
                     new ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                              builder: (context) => Register()
-                          )
-                          );
+                        onPressed: ()  {
+
+                            _navigateAndDisplaySelection(context);
+
+//                          Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                              builder: (context) => Register()
+//                          )
+//                          );
                         },
                         child: Text(
                           "Register",

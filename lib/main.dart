@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const PrimaryApp(),
       routes: {
-        '/register': (context) =>  Register(),
+        '/register': (context) =>  Register(sourcePage: 'HOME'),
         '/about': (context) => About(),
         '/support' : (context) => Support(),
 //        '/about': (context) => const AboutScreen()

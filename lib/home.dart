@@ -56,7 +56,7 @@ class _PrimaryAppState extends State<PrimaryApp> {
             ),
             body: MyGridView()),
       routes: {
-        '/register': (context) => Register(),
+        '/register': (context) => Register(sourcePage: 'HOME'),
       },
     );
   }

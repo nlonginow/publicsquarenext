@@ -105,6 +105,21 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
 
   @override
  void initState() {
+    // download the PDF... even if they dont register, it will be here for when they do.
+    // its a hit on their storage, but simplifies the code here
+    getFileFromUrl(widget.theUrl).then(
+          (value) => {
+        setState(() {
+          if (value != null) {
+            urlPDFPath = value.path;
+            loaded = true;
+            exists = true;
+          } else {
+            exists = false;
+          }
+        })
+      },
+    );
     userIsRegistered().then((result) {
       print("userisregistered result: $result");
       _userIsRegistered = result;
@@ -113,19 +128,7 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
           context, MaterialPageRoute(builder: (context) => AskToRegister()));
       }
       else {
-        getFileFromUrl(widget.theUrl).then(
-              (value) => {
-            setState(() {
-              if (value != null) {
-                urlPDFPath = value.path;
-                loaded = true;
-                exists = true;
-              } else {
-                exists = false;
-              }
-            })
-          },
-        );
+
       }
       setState(() {});
     });

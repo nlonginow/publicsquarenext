@@ -2,13 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
-import 'package:flutter/services.dart';
+import 'home.dart';
 
 class Register extends StatefulWidget {
+
+  final String sourcePage;
+
+  Register({required this.sourcePage});
+
   @override
   _RegisterState createState() => _RegisterState();
   late String chosenState = 'AL';
@@ -130,6 +136,16 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new AppBar(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context, 'Caller is ' + widget.sourcePage);
+//                Navigator.push(
+//                  context,
+//                  MaterialPageRoute(builder: (context) => PrimaryApp()),
+//                );
+              },
+              icon: Icon(Icons.arrow_back), //replace with our own icon data.
+            ),
             title:
                 Text("Register", style: TextStyle(fontWeight: FontWeight.w700)),
             centerTitle: true),
