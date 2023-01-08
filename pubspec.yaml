@@ -77,7 +77,6 @@ flutter:
     - assets/images/ridingthepine.png
     - assets/images/thinking.png
     - assets/images/blog.jpg
-    - pubspec.yaml
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -1,10 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-//import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:publicsquarenext/register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'askToRegister.dart';
 
 const List<Color> _kDefaultRainbowColors = const [
   Colors.red,
@@ -22,14 +27,14 @@ class DisplayRemotePDF extends StatefulWidget {
   final String theTitle;
 
   DisplayRemotePDF(
-      {required this.title,
-        required this.theUrl, required this.theTitle});
+      {required this.title, required this.theUrl, required this.theTitle});
 
   @override
   _DisplayRemotePDFState createState() => _DisplayRemotePDFState();
 }
 
 class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
+  bool _userIsRegistered = false;
   String urlPDFPath = "";
   bool exists = true;
   int _totalPages = 0;
@@ -56,26 +61,74 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
     }
   }
 
-  void requestPersmission() async {
-    //await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+  Future<bool> userIsRegistered() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> items = [];
+    // no local registration? then must register...
+    var email = prefs.getString('email') ?? '';
+    if (email == null || email == '') {
+      return false;
+    }
+
+    String API_USERNAME = "Admin";
+    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
+    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
+    final base64Str = base64.encode(bytes);
+    String AUTH = "Basic " + base64Str;
+    DateTime now = new DateTime.now();
+
+    final response = await http.get(
+        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
+        headers: <String, String>{
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'authorization': AUTH
+        });
+
+    print('checking if already registered');
+    bool userExists = false;
+    if (response.statusCode == 200) {
+      List<dynamic> list = json.decode(response.body);
+      var item;
+      var myList = <AppUserItem>[];
+      for (item in list) {
+        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
+        print('comparing ' + email + ' to ' + anAppUserItem.email);
+        if (anAppUserItem.email == email) {
+          userExists = true;
+          break;
+        }
+      }
+    }
+    return userExists;
   }
 
   @override
-  void initState() {
-    requestPersmission();
-    getFileFromUrl("http://www.africau.edu/images/default/sample.pdf").then(
-          (value) => {
-        setState(() {
-          if (value != null) {
-            urlPDFPath = value.path;
-            loaded = true;
-            exists = true;
-          } else {
-            exists = false;
-          }
-        })
-      },
-    );
+ void initState() {
+    userIsRegistered().then((result) {
+      print("userisregistered result: $result");
+      _userIsRegistered = result;
+      if (result == false) {
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AskToRegister()));
+      }
+      else {
+        getFileFromUrl(widget.theUrl).then(
+              (value) => {
+            setState(() {
+              if (value != null) {
+                urlPDFPath = value.path;
+                loaded = true;
+                exists = true;
+              } else {
+                exists = false;
+              }
+            })
+          },
+        );
+      }
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -85,10 +138,9 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
     if (loaded) {
       return Scaffold(
         appBar: new AppBar(
-            title: Text(
-                widget.title, style: TextStyle(fontWeight: FontWeight.w700)),
-            centerTitle: true
-        ),
+            title: Text(widget.title,
+                style: TextStyle(fontWeight: FontWeight.w700)),
+            centerTitle: true),
         body: PDFView(
           filePath: urlPDFPath,
           autoSpacing: true,
@@ -168,10 +220,8 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
                 indicatorType: Indicator.ballScaleMultiple,
                 colors: _kDefaultRainbowColors,
                 strokeWidth: 4.0,
-                pathBackgroundColor:
-                Colors.black45,
-              )
-          ),
+                pathBackgroundColor: Colors.black45,
+              )),
         );
       } else {
         //Replace Error UI
@@ -188,4 +238,3 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
     }
   }
 }
-
