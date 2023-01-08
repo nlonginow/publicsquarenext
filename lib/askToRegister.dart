@@ -22,9 +22,14 @@ class _AskToRegisterState extends State<AskToRegister> {
         appBar: new AppBar(
             leading: IconButton(
               onPressed: (){
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PrimaryApp(
+                      )),
+                );
               },
-              icon:Icon(Icons.arrow_back_ios),//replace with our own icon data.
+              icon:Icon(Icons.arrow_back),//replace with our own icon data.
             ),
             title:
             Text("Registration Required", style: TextStyle(fontWeight: FontWeight.w700)),
@@ -38,30 +43,13 @@ class _AskToRegisterState extends State<AskToRegister> {
                     new Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(
-                            top: 20.0, left: 20.0, bottom: 25.0),
+                            top: 40.0, left: 20.0, bottom: 25.0),
                         child: new Text(
-                          'This page is for registered users.  Want to register?',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, left: 20.0, bottom: 25.0),
-                        child: new Text(
-                          'Tap Register to proceed, otherwise tap Decline',
+                          'Please register to stay connected with The Public Square. We value your partnership. Your email is never sold, marketed or used to create email spam. '
+                              'Any email you might receive from us will include an unsubscribe link.',
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: Colors.indigo,
+                            color: Colors.black,
                             fontSize: 14.0,
                           ),
                         ),
@@ -98,35 +86,7 @@ class _AskToRegisterState extends State<AskToRegister> {
                         )),
                   ],
                 ),
-                new Wrap(
-                  children: <Widget>[
-                    new ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PrimaryApp()
-                              )
-                          );
-                        },
-                        child: Text(
-                          "Decline",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.resolveWith<
-                              EdgeInsetsGeometry>(
-                                (Set<MaterialState> states) {
-                              return EdgeInsets.only(
-                                  left: 40.0,
-                                  right: 40.0,
-                                  top: 10.0,
-                                  bottom: 10.0);
-                            },
-                          ),
-                        )),
-                  ],
-                ),
+
               ],
             ),
           ),
