@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:publicsquarenext/register.dart';
+import 'package:provider/provider.dart';
 
+import 'app_bottom_navigation.dart';
 import 'audiobook.dart';
+import 'bottom_screens/first_view.dart';
+import 'bottom_screens/fourth_view.dart';
+import 'bottom_screens/second_view.dart';
+import 'bottom_screens/third_view.dart';
 import 'programlisting.dart';
 
 class PrimaryApp extends StatefulWidget {
@@ -13,6 +18,31 @@ class PrimaryApp extends StatefulWidget {
 }
 
 class _PrimaryAppState extends State<PrimaryApp> {
+  Map<int, Color> color = {
+    50: const Color.fromRGBO(250, 202, 88, .1),
+    100: const Color.fromRGBO(250, 202, 88, .2),
+    200: const Color.fromRGBO(250, 202, 88, .3),
+    300: const Color.fromRGBO(250, 202, 88, .4),
+    400: const Color.fromRGBO(250, 202, 88, .5),
+    500: const Color.fromRGBO(250, 202, 88, .6),
+    600: const Color.fromRGBO(250, 202, 88, .7),
+    700: const Color.fromRGBO(250, 202, 88, .8),
+    800: const Color.fromRGBO(250, 202, 88, .9),
+    900: const Color.fromRGBO(250, 202, 88, 1),
+  };
+
+  final arrBottomItems = [
+    tabItem('TPS60', Icons.home),
+    tabItem('2 Minute', Icons.category),
+    tabItem('TPS Express', Icons.favorite),
+    tabItem('Blog', Icons.search),
+    tabItem('Monthly Update', Icons.search),
+    tabItem('Christmas', Icons.search),
+    tabItem('The Pine', Icons.search),
+    tabItem('Audio Book', Icons.search),
+    tabItem('Register', Icons.search),
+  ];
+
   var selectedItem = '';
 
   @override
@@ -22,43 +52,76 @@ class _PrimaryAppState extends State<PrimaryApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              iconTheme: IconThemeData(color: Colors.white),
-              title: const Text('The Public Square',
-                  style: TextStyle(color: Colors.white)),
-              actions: [
-                PopupMenuButton(onSelected: (value) {
-                  // your logic
-                  setState(() {
-                    selectedItem = value.toString();
-                  });
-                  print(value);
-                  Navigator.pushNamed(context, value.toString());
-                }, itemBuilder: (BuildContext bc) {
-                  return const [
-                    PopupMenuItem(
-                      child: Text("Register"),
-                      value: '/register',
-                    ),
-                    PopupMenuItem(
-                      child: Text("Support"),
-                      value: '/support',
-                    ),
-                    PopupMenuItem(
-                      child: Text("About"),
-                      value: '/about',
-                    ),
-                  ];
-                })
-              ],
-              backgroundColor: Colors.black,
+    final MaterialColor colorCustom = MaterialColor(0xFFFACA58, color);
+    return Scaffold(
+        appBar: AppBar(
+            centerTitle: true,
+            iconTheme: const IconThemeData(color: Colors.white),
+            title: Consumer<BottomNavigatorProvider>(
+              builder: (ctx, item, child) {
+                if (item.selectedIndex == 0) {
+                  return const Text(
+                    'TPS60',
+                    style: TextStyle(color: Colors.white),
+                  );
+                } else if (item.selectedIndex == 1) {
+                  return const Text('2 Minute Programs',
+                      style: TextStyle(color: Colors.white));
+                } else if (item.selectedIndex == 2) {
+                  return const Text('TPS Express',
+                      style: TextStyle(color: Colors.white));
+                } else if (item.selectedIndex == 3) {
+                  return const Text('For The Common Good',
+                      style: TextStyle(color: Colors.white));
+                } else if (item.selectedIndex == 4) {
+                  return const Text('Christmas in America',
+                      style: TextStyle(color: Colors.white));
+                } else if (item.selectedIndex == 5) {
+                  return const Text('The Pine Podcast',
+                      style: TextStyle(color: Colors.white));
+                } else if (item.selectedIndex == 6) {
+                  return const Text('Audio Book',
+                style: TextStyle(color: Colors.white));
+                } else if (item.selectedIndex == 7) {
+                  return const Text('Register',
+                      style: TextStyle(color: Colors.white));
+                }
+                else {
+                  return Text("Tab");
+                }
+              },
             ),
-            body: MyGridView()),
-      routes: {
-        '/register': (context) => Register(sourcePage: 'HOME'),
-      },
+            brightness: Brightness.dark),
+        body: Center(
+          child: Consumer<BottomNavigatorProvider>(
+            builder: (ctx, item, child) {
+              switch (item.selectedIndex) {
+                case 0:
+                  return MyGridView();
+                  break;
+                case 1:
+                  return SecondView();
+                  break;
+                case 2:
+                  return ThirdView();
+                  break;
+                case 3:
+                  return FourthView();
+                  break;
+                default:
+                  return FirstView();
+                  break;
+              }
+            },
+          ),
+        ),
+      bottomNavigationBar: BottomNavigation(
+          arrBottomItems: arrBottomItems,
+          backgroundColor: colorCustom,
+          showSelectedLables: true,
+          showUnselectedLables: true,
+          color: Colors.black,
+          selectedColor: Colors.white),
     );
   }
 }
@@ -90,13 +153,12 @@ const List<Choice> choices = const [
       title: 'For The Common Good Blog',
       iconImageName: "assets/images/blog.jpg"),
   const Choice(
-      title: 'Your Monthly Update',
-      iconImageName: "assets/images/monthly.jpg"),
+      title: 'Your Monthly Update', iconImageName: "assets/images/monthly.jpg"),
   const Choice(
-      title: 'Christmas in America',
-      iconImageName: "assets/images/cia.jpg"),
+      title: 'Christmas in America', iconImageName: "assets/images/cia.jpg"),
   const Choice(
-      title: 'The Pine Podcast', iconImageName: "assets/images/ridingthepine.png"),
+      title: 'The Pine Podcast',
+      iconImageName: "assets/images/ridingthepine.png"),
   const Choice(
       title: 'Audio Book', iconImageName: "assets/images/gilbertandjack.jpg"),
 ];
@@ -114,122 +176,121 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ListView(
-          children: <Widget>[
-            Padding(padding: EdgeInsets.all(5.0)),
-            GridView.count(
-              crossAxisCount: 2,
-              physics: NeverScrollableScrollPhysics(),
-              // to disable GridView's scrolling
-              shrinkWrap: true,
-              // You won't see infinite size error
-              children: List.generate(choices.length, (index) {
-                return Center(
-                  child: InkWell(
-                    onTap: () {
-                      switch (index) {
-                        case CardTypes.TPS60:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'TPS60',
-                                      )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
-                            );
-                          }
-                          break;
-                        case CardTypes.TPS2:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'TPS2',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.TPSExpress:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'TPSExpress',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.CommonGood:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'Common Good Blog',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.MonthlyUpdate:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'Monthly Update',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.Christmas:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'CIA',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.ThePine:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgramListing(
-                                        podcastname: 'The Pine Podcast',
-                                      )),
-                            );
-                          }
-                          break;
-                        case CardTypes.GilbertAndJack:
-                          {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AudioBook()),
-                            );
-                        }
-                        break;
-                        default:
-                          {
-                            //statements;
-                          }
-                          break;
+      children: <Widget>[
+        Padding(padding: EdgeInsets.all(5.0)),
+        GridView.count(
+          crossAxisCount: 2,
+          physics: NeverScrollableScrollPhysics(),
+          // to disable GridView's scrolling
+          shrinkWrap: true,
+          // You won't see infinite size error
+          children: List.generate(choices.length, (index) {
+            return Center(
+              child: InkWell(
+                onTap: () {
+                  switch (index) {
+                    case CardTypes.TPS60:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'TPS60',
+                                  )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
+                        );
                       }
-                    },
-                    child: new ChoiceCard(
-                      choice: choices[index],
-                      key: Key("title"),
-                    ),
-                  ),
-                );
-              }),
-            ),
-            // ...... other list children.
-          ],
+                      break;
+                    case CardTypes.TPS2:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'TPS2',
+                                  )),
+                        );
+                      }
+                      break;
+                    case CardTypes.TPSExpress:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'TPSExpress',
+                                  )),
+                        );
+                      }
+                      break;
+                    case CardTypes.CommonGood:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'Common Good Blog',
+                                  )),
+                        );
+                      }
+                      break;
+                    case CardTypes.MonthlyUpdate:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'Monthly Update',
+                                  )),
+                        );
+                      }
+                      break;
+                    case CardTypes.Christmas:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'CIA',
+                                  )),
+                        );
+                      }
+                      break;
+                    case CardTypes.ThePine:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'The Pine Podcast',
+                                  )),
+                        );
+                      }
+                      break;
+                    case CardTypes.GilbertAndJack:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AudioBook()),
+                        );
+                      }
+                      break;
+                    default:
+                      {
+                        //statements;
+                      }
+                      break;
+                  }
+                },
+                child: new ChoiceCard(
+                  choice: choices[index],
+                  key: Key("title"),
+                ),
+              ),
+            );
+          }),
+        ),
+        // ...... other list children.
+      ],
     );
   }
 }
