@@ -96,8 +96,9 @@ class _ProgramListingState extends State<ProgramListing> {
                                                   BorderRadius.circular(30.0),
                                               image: DecorationImage(
                                                   fit: BoxFit.cover,
-                                                  image: AssetImage(
-                                                      _imageName))))),
+                                                  image: NetworkImage(
+                                                    snapshot.data![index].cover
+                                                  ))))),
                                 ),
                               )),
                           title: snapshot.data?[index].title == null

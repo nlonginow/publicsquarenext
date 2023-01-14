@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:publicsquarenext/register.dart';
 
+import 'audiobook.dart';
 import 'programlisting.dart';
 
 class PrimaryApp extends StatefulWidget {
@@ -96,6 +97,8 @@ const List<Choice> choices = const [
       iconImageName: "assets/images/cia.jpg"),
   const Choice(
       title: 'The Pine Podcast', iconImageName: "assets/images/ridingthepine.png"),
+  const Choice(
+      title: 'Audio Book', iconImageName: "assets/images/gilbertandjack.jpg"),
 ];
 
 class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
@@ -201,6 +204,15 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                             );
                           }
                           break;
+                        case CardTypes.GilbertAndJack:
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AudioBook()),
+                            );
+                        }
+                        break;
                         default:
                           {
                             //statements;
@@ -233,6 +245,7 @@ class CardTypes {
   static const MonthlyUpdate = 4;
   static const Christmas = 5;
   static const ThePine = 6;
+  static const GilbertAndJack = 7;
 }
 
 class ChoiceCard extends StatelessWidget {
