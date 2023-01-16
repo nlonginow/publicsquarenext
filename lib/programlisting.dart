@@ -98,9 +98,14 @@ class _ProgramListingState extends State<ProgramListing> {
                                                   fit: BoxFit.cover,
                                                   image: NetworkImage(
                                                     snapshot.data![index].cover
-                                                  ))))),
+                                                  )
+                                              )
+                                          )
+                                      )
+                                  ),
                                 ),
-                              )),
+                              )
+                          ),
                           title: snapshot.data?[index].title == null
                               ? "title"
                               : snapshot.data![index].title,
@@ -194,7 +199,9 @@ class _ProgramListingState extends State<ProgramListing> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            }));
+            }
+            )
+    );
   }
 
   @override

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:publicsquarenext/listofgrids.dart';
 import 'package:publicsquarenext/podcastpage.dart';
 import 'package:publicsquarenext/publications.dart';
 import 'package:publicsquarenext/register.dart';
+import 'package:publicsquarenext/simplegrids.dart';
 
 import 'app_bottom_navigation.dart';
 import 'audiobook.dart';
@@ -64,7 +66,7 @@ class _PrimaryAppState extends State<PrimaryApp> {
             builder: (ctx, item, child) {
               switch (item.selectedIndex) {
                 case 0:
-                  return PodcastPage();
+                  return SimpleGridsPage();
                   break;
                 case 1:
                   return PubsPage();
