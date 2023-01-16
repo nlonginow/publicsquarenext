@@ -1,27 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:publicsquarenext/podcastpage.dart';
-import 'package:publicsquarenext/publications.dart';
-import 'package:publicsquarenext/register.dart';
 
 import 'app_bottom_navigation.dart';
-import 'audiobook.dart';
-import 'bottom_screens/first_view.dart';
-import 'bottom_screens/fourth_view.dart';
-import 'bottom_screens/second_view.dart';
-import 'bottom_screens/third_view.dart';
-import 'morepage.dart';
 import 'programlisting.dart';
 
-class PrimaryApp extends StatefulWidget {
-  const PrimaryApp();
+class PodcastPage extends StatefulWidget {
+  const PodcastPage();
 
   @override
-  _PrimaryAppState createState() => _PrimaryAppState();
+  _PodcastPageState createState() => _PodcastPageState();
 }
 
-class _PrimaryAppState extends State<PrimaryApp> {
+class _PodcastPageState extends State<PodcastPage> {
   Map<int, Color> color = {
     50: const Color.fromRGBO(250, 202, 88, .1),
     100: const Color.fromRGBO(250, 202, 88, .2),
@@ -56,49 +46,18 @@ class _PrimaryAppState extends State<PrimaryApp> {
         appBar: AppBar(
             centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
-            title: Text("The Public Square"),
-            backgroundColor: Colors.black,
+            title: Text("Podcasts"),
             brightness: Brightness.dark),
-        body: Center(
-          child: Consumer<BottomNavigatorProvider>(
-            builder: (ctx, item, child) {
-              switch (item.selectedIndex) {
-                case 0:
-                  return PodcastPage();
-                  break;
-                case 1:
-                  return PubsPage();
-                  break;
-                case 2:
-                  return AudioBook();
-                  break;
-                case 3:
-                  return MorePage();
-                  break;
-                default:
-                  return PodcastPage();
-                  break;
-              }
-            },
-          ),
-        ),
-      bottomNavigationBar: BottomNavigation(
-          arrBottomItems: arrBottomItems,
-          backgroundColor: colorCustom,
-          showSelectedLables: true,
-          showUnselectedLables: true,
-          color: Colors.black,
-          selectedColor: Colors.white),
-    );
+        body: MyPodcastGridView());
   }
 }
 
-class MyGridView extends StatefulWidget {
-  const MyGridView();
+class MyPodcastGridView extends StatefulWidget {
+  const MyPodcastGridView();
 
   @override
   State<StatefulWidget> createState() {
-    return _MyGridViewState();
+    return _MyPodcastGridViewState();
   }
 }
 
@@ -117,27 +76,16 @@ const List<Choice> choices = const [
   const Choice(
       title: 'TPS Express Program', iconImageName: "assets/images/express.jpg"),
   const Choice(
-      title: 'For The Common Good Blog',
-      iconImageName: "assets/images/blog.jpg"),
-  const Choice(
-      title: 'Your Monthly Update', iconImageName: "assets/images/monthly.jpg"),
-  const Choice(
       title: 'Christmas in America', iconImageName: "assets/images/cia.jpg"),
   const Choice(
       title: 'The Pine Podcast',
       iconImageName: "assets/images/ridingthepine.png"),
-  const Choice(
-      title: 'Audio Book', iconImageName: "assets/images/gilbertandjack.jpg"),
 ];
 
-class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
-  late TabController _tabController;
-
+class _MyPodcastGridViewState extends State<MyPodcastGridView> {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
-    _tabController.animateTo(2);
   }
 
   @override
@@ -156,7 +104,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
               child: InkWell(
                 onTap: () {
                   switch (index) {
-                    case CardTypes.TPS60:
+                    case PodcastCardTypes.TPS60:
                       {
                         Navigator.push(
                           context,
@@ -167,7 +115,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                         );
                       }
                       break;
-                    case CardTypes.TPS2:
+                    case PodcastCardTypes.TPS2:
                       {
                         Navigator.push(
                           context,
@@ -178,7 +126,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                         );
                       }
                       break;
-                    case CardTypes.TPSExpress:
+                    case PodcastCardTypes.TPSExpress:
                       {
                         Navigator.push(
                           context,
@@ -189,29 +137,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                         );
                       }
                       break;
-                    case CardTypes.CommonGood:
-                      {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProgramListing(
-                                    podcastname: 'Common Good Blog',
-                                  )),
-                        );
-                      }
-                      break;
-                    case CardTypes.MonthlyUpdate:
-                      {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProgramListing(
-                                    podcastname: 'Monthly Update',
-                                  )),
-                        );
-                      }
-                      break;
-                    case CardTypes.Christmas:
+                    case PodcastCardTypes.Christmas:
                       {
                         Navigator.push(
                           context,
@@ -222,7 +148,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                         );
                       }
                       break;
-                    case CardTypes.ThePine:
+                    case PodcastCardTypes.ThePine:
                       {
                         Navigator.push(
                           context,
@@ -233,14 +159,6 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                         );
                       }
                       break;
-                    case CardTypes.GilbertAndJack:
-                      {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AudioBook()),
-                        );
-                      }
-                      break;
                     default:
                       {
                         //statements;
@@ -248,7 +166,7 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
                       break;
                   }
                 },
-                child: new ChoiceCard(
+                child: new PodcastChoiceCard(
                   choice: choices[index],
                   key: Key("title"),
                 ),
@@ -265,19 +183,17 @@ class _MyGridViewState extends State<MyGridView> with TickerProviderStateMixin {
 //
 // Card details
 //
-class CardTypes {
+class PodcastCardTypes {
   static const TPS60 = 0;
   static const TPS2 = 1;
   static const TPSExpress = 2;
-  static const CommonGood = 3;
-  static const MonthlyUpdate = 4;
-  static const Christmas = 5;
-  static const ThePine = 6;
-  static const GilbertAndJack = 7;
+  static const Christmas = 3;
+  static const ThePine = 4;
 }
 
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({required Key key, required this.choice}) : super(key: key);
+class PodcastChoiceCard extends StatelessWidget {
+  const PodcastChoiceCard({required Key key, required this.choice})
+      : super(key: key);
 
   final Choice choice;
 
@@ -311,13 +227,3 @@ class ChoiceCard extends StatelessWidget {
         ));
   }
 }
-
-const SnackBar notYetImplementedSnackBar = SnackBar(
-    duration: Duration(seconds: 2),
-    backgroundColor: Colors.amberAccent,
-    content: ListTile(
-      title: Text(
-        "This page is not yet implemented.",
-        style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
-      ),
-    ));

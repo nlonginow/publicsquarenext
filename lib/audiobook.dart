@@ -59,7 +59,7 @@ class _AudioBookState extends State<AudioBook> {
               height: 10,
             ),
         Container(
-          height: 300,
+          height: 200,
           width: 350,
           child:
             new Expanded(

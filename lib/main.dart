@@ -1,23 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:publicsquarenext/register.dart';
 import 'package:publicsquarenext/support.dart';
+
 import 'about.dart';
-import 'home.dart';
-import 'package:provider/provider.dart';
 import 'app_bottom_navigation.dart';
-
-
-//void main() {
-//  runApp(const PrimaryApp());
-//}
+import 'home.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   Map<int, Color> color = {
     50: const Color.fromRGBO(250, 202, 88, .1),
@@ -32,28 +28,25 @@ class MyApp extends StatelessWidget {
     900: const Color.fromRGBO(250, 202, 88, 1),
   };
 
-
   @override
   Widget build(BuildContext context) {
     final MaterialColor colorCustom = MaterialColor(0xFFFACA58, color);
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: BottomNavigatorProvider())
-      ],
-      child: MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
+        providers: [
+          ChangeNotifierProvider.value(value: BottomNavigatorProvider())
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blueGrey,
+          ),
       home: const PrimaryApp(),
-      routes: {
-        '/register': (context) =>  Register(sourcePage: 'HOME'),
-        '/about': (context) => About(),
-        '/support' : (context) => Support(),
-//        '/about': (context) => const AboutScreen()
-      },
-    ));
+          routes: {
+            '/register': (context) => Register(sourcePage: 'HOME'),
+            '/about': (context) => About(),
+            '/support': (context) => Support(),
+          },
+        ));
   }
 }
-
