@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>544405577623-i3go96hnho2o0r3rn53h1q8uphpfcj42.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.544405577623-i3go96hnho2o0r3rn53h1q8uphpfcj42</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBLANFMYBEpw2eFN6T1nFu4gZwOngtdcXU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>544405577623</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.publicsquarenext</string>
+	<key>PROJECT_ID</key>
+	<string>tpsmobile-f19f3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tpsmobile-f19f3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:544405577623:ios:905ebcc83a27b51c7d6ed2</string>
+	<key>DATABASE_URL</key>
+	<string>https://tpsmobile-f19f3-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "544405577623",
+    "firebase_url": "https://tpsmobile-f19f3-default-rtdb.firebaseio.com",
+    "project_id": "tpsmobile-f19f3",
+    "storage_bucket": "tpsmobile-f19f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544405577623:android:6689052af84cc70a7d6ed2",
+        "android_client_info": {
+          "package_name": "com.example.publicsquarenext"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544405577623-mdjs6e0qo2l0omq4lqis4k4btjkuu97k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCzbQ2085XmGbl7XnVteh6wxg9KFXaLA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544405577623-mdjs6e0qo2l0omq4lqis4k4btjkuu97k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "544405577623-b10qqpbo6fdaqlbbsn3u512k6vftfr0i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "6YG9T4YPA4.org.aproundtable.thepublicsquare"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544405577623:android:20ad9c7260e6d6967d6ed2",
+        "android_client_info": {
+          "package_name": "com.tps.podcast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544405577623-mdjs6e0qo2l0omq4lqis4k4btjkuu97k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCzbQ2085XmGbl7XnVteh6wxg9KFXaLA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544405577623-mdjs6e0qo2l0omq4lqis4k4btjkuu97k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "544405577623-b10qqpbo6fdaqlbbsn3u512k6vftfr0i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "6YG9T4YPA4.org.aproundtable.thepublicsquare"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

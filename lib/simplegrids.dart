@@ -60,7 +60,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                         children: <Widget>[
                           new Padding(
                               padding: const EdgeInsets.only(right: 5.0)),
-                          new Text( gridTitleItems[ outerIndex ],
+                          new Text(gridTitleItems[outerIndex],
                               style: new TextStyle(
                                   fontSize: 20.0, color: Colors.white)),
                         ],
@@ -69,7 +69,8 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                     new Container(
                         height: 150.0, // this will have the future in it
                         child: FutureBuilder<List<PodcastItem>>(
-                            future: getShowsForProgram(gridShowNames[ outerIndex ]),
+                            future:
+                                getShowsForProgram(gridShowNames[outerIndex]),
                             builder: (context, snapshot) {
                               if (snapshot.hasError) {
                                 showDialog(
@@ -89,31 +90,51 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                                       return new Card(
                                         elevation: 5.0,
                                         child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => PlayerMain(
-                                                    theTitle:
-                                                    snapshot.data?[index].title == null
-                                                        ? "title"
-                                                        : snapshot.data![index].title,
-                                                    theUrl:
-                                                    snapshot.data?[index].url == null
-                                                        ? "url"
-                                                        : snapshot.data![index].url,
-                                                    theCover:
-                                                    snapshot.data?[index].cover == null
-                                                        ? "cover"
-                                                        : snapshot.data![index].cover,
-                                                    theDescription: snapshot
-                                                        .data?[index].description ==
-                                                        null
-                                                        ? "description"
-                                                        : snapshot.data![index].description,
-                                                  )),
-                                            );
-                                          },
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PlayerMain(
+                                                          theTitle: snapshot
+                                                                      .data?[
+                                                                          index]
+                                                                      .title ==
+                                                                  null
+                                                              ? "title"
+                                                              : snapshot
+                                                                  .data![index]
+                                                                  .title,
+                                                          theUrl: snapshot
+                                                                      .data?[
+                                                                          index]
+                                                                      .url ==
+                                                                  null
+                                                              ? "url"
+                                                              : snapshot
+                                                                  .data![index]
+                                                                  .url,
+                                                          theCover: snapshot
+                                                                      .data?[
+                                                                          index]
+                                                                      .cover ==
+                                                                  null
+                                                              ? "cover"
+                                                              : snapshot
+                                                                  .data![index]
+                                                                  .cover,
+                                                          theDescription: snapshot
+                                                                      .data?[
+                                                                          index]
+                                                                      .description ==
+                                                                  null
+                                                              ? "description"
+                                                              : snapshot
+                                                                  .data![index]
+                                                                  .description,
+                                                        )),
+                                              );
+                                            },
                                             child: Container(
                                                 height: MediaQuery.of(context)
                                                         .size
@@ -165,7 +186,8 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                               return Center(
                                 child: CircularProgressIndicator(),
                               );
-                            })),
+                            })
+                    ),
                     new SizedBox(height: 20.0),
                   ],
                 );

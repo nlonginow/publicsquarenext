@@ -49,7 +49,8 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
       fileName = name;
     }
     try {
-      var data = await http.get(widget.theUrl);
+      Uri aUrl = Uri.parse(widget.theUrl);
+      var data = await http.get(aUrl);
       var bytes = data.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File file = File("${dir.path}/" + fileName + ".pdf");
