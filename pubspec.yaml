@@ -18,9 +18,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_lints: ^2.0.0
-  webfeed: ^0.4.2
-  eof_podcast_feed_flutter:
-    path: ./eof_podcast_feed_flutter
+  #webfeed: ^0.4.2
   #eof_podcast_feed: ^1.0.0  // use the local one that is updated by me
   just_audio: ^0.9.30
   audio_video_progress_bar: ^0.9.0
@@ -39,6 +37,10 @@ dependencies:
   firebase_auth: ^4.2.10
   http_parser: ^4.0.2
   provider: ^6.0.5
+  xml: ^3.7.0
+  eof_podcast_feed_local:
+    path: ./eof_podcast_feed_local
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

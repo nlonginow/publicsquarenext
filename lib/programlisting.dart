@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:eof_podcast_feed_flutter/eof_podcast_feed_local.dart';
+import 'package:eof_podcast_feed_local/eof_podcast_feed.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:publicsquarenext/displaypage.dart';
 import 'displaypdfpage.dart';
+import 'fetchUtils/firebasefetch.dart';
+import 'models/programtypes.dart';
 import 'playermain.dart';
 
 class ProgramListing extends StatefulWidget {
@@ -357,6 +359,7 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
       var podcast = await EOFPodcast.fromFeed('https://thepublicsquare.libsyn.com/rss');
       var episodes = podcast?.episodes;
 
+
       for (int i = 0; i < episodes!.length; i++) {
         String theDescription = episodes[i].description;
         int idx = theDescription.lastIndexOf("Topic:");
@@ -427,6 +430,7 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         }
       }
       break;
+      /*
     case "Common Good Blog":
       List<CommonGoodItem> commonGoodItems = await fetchCommonGoodItems();
       print('got ' + commonGoodItems.length.toString() + ' items back');
@@ -444,8 +448,11 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         thePrograms.add(anItem);
       }
       break;
+
+       */
+      /*
     case "CIA":
-/*      List<ChristmasItem> ciaItems = await fetchChristmasItems();
+      List<ChristmasItem> ciaItems = await fetchChristmasItems();
       for (int i = 0; i < ciaItems.length; i++) {
         String theDescription = ciaItems[i].program_description;
         String sUrl =
@@ -460,7 +467,7 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
                 'https://configuremyapp.com/wp-content/uploads/2022/12/fireplace.png');
         thePrograms.add(anItem);
       }
-      */
+
       break;
 
     case "The Pine Podcast":
@@ -484,6 +491,8 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         thePrograms.add(anItem);
       }
       break;
+
+       */
     default:
   }
   return thePrograms;

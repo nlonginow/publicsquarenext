@@ -164,7 +164,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                                                                   child: Container(
                                                                       //height: 120,
                                                                       //width: 120,
-                                                                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0), image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(snapshot.data![index].cover))))),
+                                                                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0), image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(snapshot.data![0].cover))))),
                                                             ),
                                                           )),
                                                       new Text(snapshot
