@@ -39,7 +39,7 @@ class _PrimaryAppState extends State<PrimaryApp> {
 
   final arrBottomItems = [
     tabItem('Programs', Icons.podcasts_sharp),
-    tabItem('Publications', Icons.document_scanner_sharp),
+    tabItem('Publications1', Icons.document_scanner_sharp),
     tabItem('AudioBook', Icons.audiotrack),
     tabItem('More', Icons.more),
   ];

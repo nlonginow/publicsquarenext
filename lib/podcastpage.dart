@@ -27,7 +27,7 @@ class _PodcastPageState extends State<PodcastPage> {
 
   final arrBottomItems = [
     tabItem('Programs', Icons.podcasts_sharp),
-    tabItem('Publications', Icons.document_scanner_sharp),
+    tabItem('Publications2', Icons.document_scanner_sharp),
     tabItem('AudioBook', Icons.audiotrack),
     tabItem('More', Icons.more),
   ];
