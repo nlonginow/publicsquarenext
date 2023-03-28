@@ -38,6 +38,7 @@ dependencies:
   http_parser: ^4.0.2
   provider: ^6.0.5
   xml: ^3.7.0
+  firebase_core : ^2.7.1
   eof_podcast_feed_local:
     path: ./eof_podcast_feed_local
 

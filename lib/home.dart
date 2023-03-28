@@ -1,18 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:publicsquarenext/listofgrids.dart';
 import 'package:publicsquarenext/podcastpage.dart';
 import 'package:publicsquarenext/publications.dart';
 import 'package:publicsquarenext/register.dart';
 import 'package:publicsquarenext/simplegrids.dart';
-
 import 'app_bottom_navigation.dart';
 import 'audiobook.dart';
-import 'bottom_screens/first_view.dart';
-import 'bottom_screens/fourth_view.dart';
-import 'bottom_screens/second_view.dart';
-import 'bottom_screens/third_view.dart';
 import 'morepage.dart';
 import 'programlisting.dart';
 
@@ -39,7 +33,7 @@ class _PrimaryAppState extends State<PrimaryApp> {
 
   final arrBottomItems = [
     tabItem('Programs', Icons.podcasts_sharp),
-    tabItem('Publications1', Icons.document_scanner_sharp),
+    tabItem('Publications', Icons.document_scanner_sharp),
     tabItem('AudioBook', Icons.audiotrack),
     tabItem('More', Icons.more),
   ];

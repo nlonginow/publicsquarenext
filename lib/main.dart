@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +9,30 @@ import 'about.dart';
 import 'app_bottom_navigation.dart';
 import 'home.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    name: 'myCustomApp',
+    options: FirebaseOptions(
+      appId: '1:544405577623:android:6689052af84cc70a7d6ed2',
+      apiKey: 'AIzaSyCCzbQ2085XmGbl7XnVteh6wxg9KFXaLA8',
+      messagingSenderId: '544405577623',
+      projectId: 'tpsmobile-f19f3',
+    ),
+  );
   runApp(MyApp());
+}
+
+void initializeFirebase() async {
+  await Firebase.initializeApp(
+    name: 'myCustomApp',
+    options: FirebaseOptions(
+      appId: '1:544405577623:android:6689052af84cc70a7d6ed2',
+      apiKey: 'AIzaSyCCzbQ2085XmGbl7XnVteh6wxg9KFXaLA8',
+      messagingSenderId: '544405577623',
+      projectId: 'tpsmobile-f19f3',
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

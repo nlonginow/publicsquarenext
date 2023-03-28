@@ -358,8 +358,6 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
     case "TPS60":
       var podcast = await EOFPodcast.fromFeed('https://thepublicsquare.libsyn.com/rss');
       var episodes = podcast?.episodes;
-
-
       for (int i = 0; i < episodes!.length; i++) {
         String theDescription = episodes[i].description;
         int idx = theDescription.lastIndexOf("Topic:");
@@ -450,13 +448,12 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
       break;
 
        */
-      /*
+
     case "CIA":
       List<ChristmasItem> ciaItems = await fetchChristmasItems();
       for (int i = 0; i < ciaItems.length; i++) {
         String theDescription = ciaItems[i].program_description;
-        String sUrl =
-            'https://www.aproundtable.org/app/' + ciaItems[i].program_url;
+        String sUrl = ciaItems[i].program_url;
         String title = ciaItems[i].title;
         PodcastItem anItem = PodcastItem(
             title: title,
@@ -491,8 +488,6 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         thePrograms.add(anItem);
       }
       break;
-
-       */
     default:
   }
   return thePrograms;
