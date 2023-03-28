@@ -352,7 +352,6 @@ class PodcastItem {
 }
 
 Future<List<PodcastItem>> getShowsForProgram(String theName) async {
-  print('getting shows for ' + theName);
   List<PodcastItem> thePrograms = <PodcastItem>[];
   switch (theName) {
     case "TPS60":
@@ -428,7 +427,6 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         }
       }
       break;
-      /*
     case "Common Good Blog":
       List<CommonGoodItem> commonGoodItems = await fetchCommonGoodItems();
       print('got ' + commonGoodItems.length.toString() + ' items back');
@@ -446,9 +444,6 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         thePrograms.add(anItem);
       }
       break;
-
-       */
-
     case "CIA":
       List<ChristmasItem> ciaItems = await fetchChristmasItems();
       for (int i = 0; i < ciaItems.length; i++) {
@@ -464,9 +459,19 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
                 'https://configuremyapp.com/wp-content/uploads/2022/12/fireplace.png');
         thePrograms.add(anItem);
       }
-
       break;
-
+    case "Update":
+      List<MonthlyUpdateItem> items = await fetchMonthlyUpdateItems();
+      for (int i = 0; i < items.length; i++) {
+        PodcastItem anItem = PodcastItem(
+            title: items[i].title,
+            description: "Monthly Update",
+            pubDate: items[i].postedDate,
+            url: items[i].pdfUrl,
+            cover: items[i].jpgUrl);
+        thePrograms.add(anItem);
+      }
+      break;
     case "The Pine Podcast":
       var podcast = await EOFPodcast.fromFeed('https://thepine.libsyn.com/rss');
       var episodes = podcast?.episodes;

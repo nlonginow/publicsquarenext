@@ -16,21 +16,21 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
     super.initState();
   }
 
-  List<int> generateNumbers() => List<int>.generate(90, (i) => i + 1);
-
   final gridTitleItems = [
     'TPS60',
     'TPS2',
     'TPS Express',
-    'Christmas in America',
-    'The Pine',
+//    'Christmas in America',
+//    'Monthly Update'
+    'The Pine'
   ];
 
   final gridShowNames = [
     'TPS60',
     'TPS2',
     'TPSExpress',
-    'CIA',
+//    'CIA',
+//    'Update',
     'The Pine Podcast'
   ];
 
@@ -47,7 +47,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
           new Container(
             child: new ListView.builder(
               shrinkWrap: true,
-              itemCount: 5,
+              itemCount: 4,
               physics: ScrollPhysics(),
               itemBuilder: (context, outerIndex) {
                 return new Column(

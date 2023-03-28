@@ -7,30 +7,27 @@ import 'package:http/http.dart' as http;
 import '../models/programtypes.dart';
 
 Future<List<MonthlyUpdateItem>> fetchMonthlyUpdateItems() async {
-  String API_USERNAME = "Admin";
-  String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
-  final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
-  final base64Str = base64.encode(bytes);
-  String AUTH = "Basic " + base64Str;
 
-  final response = await http.get(
-    Uri.parse('https://configuremyapp.com/wp-json/jet-cct/tpsmonthlyupdate'),
-    headers: {
-      HttpHeaders.authorizationHeader: AUTH,
-    },
-  );
-  if (response.statusCode == 200) {
-    List<dynamic> list = json.decode(response.body);
-    var item;
-    var myList = <MonthlyUpdateItem>[];
-    for (item in list) {
-      MonthlyUpdateItem aMonthlyUpdateItem = MonthlyUpdateItem.fromJson(item);
-      myList.add(aMonthlyUpdateItem);
+  List<MonthlyUpdateItem> monthlyUpdateItems = <MonthlyUpdateItem>[];
+  var db = FirebaseFirestore.instance;
+  await db.collection("Postings").get().then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+      var theData = docSnapshot.data();
+      var valuesList = theData.values.toList();
+
+      // tilegraphic, pdfffile, publisheddate
+      var tilegraphic = valuesList[0];
+      var pdffile = valuesList[1] as String;
+      var publishedDate = valuesList[2] as String;
+      var theTitle = "Monthly Update for " + publishedDate;
+
+      MonthlyUpdateItem anItem = MonthlyUpdateItem(title: theTitle,
+          pdfUrl: pdffile, jpgUrl: tilegraphic, postedDate: publishedDate);
+      monthlyUpdateItems.add(anItem);
+
     }
-    return myList;
-  } else {
-    throw Exception("Failed to fetch Monthly Update items");
-  }
+  });
+  return monthlyUpdateItems;
 }
 
 Future<List<ChristmasItem>> fetchChristmasItems() async {
@@ -41,6 +38,7 @@ Future<List<ChristmasItem>> fetchChristmasItems() async {
     for (var docSnapshot in querySnapshot.docs) {
       var theData = docSnapshot.data();
       var valuesList = theData.values.toList();
+
       // description, timestamp, mp3, title
       var descStr = valuesList[0];
       var timeStampVal = valuesList[1] as Timestamp;
