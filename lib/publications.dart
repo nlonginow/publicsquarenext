@@ -145,19 +145,25 @@ class _PubsPageState extends State<PubsPage> {
                                                           child: ClipRect(
                                                             child: Container(
                                                               child: Align(
-                                                                  alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                                  widthFactor:
-                                                                  0.8,
-                                                                  heightFactor:
-                                                                  1.0,
+                                                                  alignment: Alignment.center,
+                                                                  widthFactor: 0.8,
+                                                                  heightFactor: 1.0,
                                                                   child: Container(
                                                                     //height: 120,
                                                                     //width: 120,
-                                                                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0), image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(snapshot.data![index].cover))))),
+                                                                      decoration:
+                                                                      BoxDecoration(color: Colors.white,
+                                                                          borderRadius: BorderRadius.circular(10.0),
+                                                                          image: DecorationImage(fit: BoxFit.cover,
+                                                                              image:
+                                                                                  snapshot.data![index].cover.length > 25 ?
+                                                                              NetworkImage(snapshot.data![index].cover) :
+                                                                                  AssetImage(snapshot.data![index].cover) as ImageProvider
+                                                                              ) ) )
+
+                                                                  )),
                                                             ),
-                                                          )),
+                                                          ),
                                                       new Text(snapshot
                                                           .data?[index]
                                                           .title ==

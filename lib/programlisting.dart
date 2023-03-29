@@ -440,7 +440,7 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
             description: '',
             pubDate: postedDate,
             url: sUrl,
-            cover: '');
+            cover: 'assets/images/blog.jpg');
         thePrograms.add(anItem);
       }
       break;
