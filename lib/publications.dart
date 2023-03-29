@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:publicsquarenext/playermain.dart';
 
 import 'app_bottom_navigation.dart';
+import 'displaypage.dart';
+import 'displaypdfpage.dart';
 import 'programlisting.dart';
 
 class PubsPage extends StatefulWidget {
@@ -82,49 +84,73 @@ class _PubsPageState extends State<PubsPage> {
                                         elevation: 5.0,
                                         child: InkWell(
                                             onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PlayerMain(
-                                                          theTitle: snapshot
-                                                              .data?[
-                                                          index]
-                                                              .title ==
-                                                              null
-                                                              ? "title"
-                                                              : snapshot
-                                                              .data![index]
-                                                              .title,
-                                                          theUrl: snapshot
-                                                              .data?[
-                                                          index]
-                                                              .url ==
-                                                              null
+                                              {
+                                                if (outerIndex == 1) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => DisplayRemotePDF(
+                                                          theUrl:
+                                                          snapshot.data?[index].url == null
                                                               ? "url"
-                                                              : snapshot
-                                                              .data![index]
-                                                              .url,
-                                                          theCover: snapshot
-                                                              .data?[
-                                                          index]
-                                                              .cover ==
-                                                              null
+                                                              : snapshot.data![index].url,
+                                                          theTitle:
+                                                          snapshot.data?[index].title == null
+                                                              ? "title"
+                                                              : snapshot.data![index].title,
+                                                          title:
+                                                          snapshot.data?[index].title == null
+                                                              ? "title"
+                                                              : snapshot.data![index].title,
+
+                                                        )),
+                                                  );
+                                                }
+                                                else if (outerIndex == 2) {
+                                                  if (snapshot.data?[index].url != null) {
+                                                    print('url is ' + snapshot.data![index].url);
+                                                  }
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => DisplayRemotePage(
+                                                          theUrl:
+                                                          snapshot.data?[index].url == null
+                                                              ? "url"
+                                                              : snapshot.data![index].url,
+                                                          theTitle:
+                                                          snapshot.data?[index].title == null
+                                                              ? "title"
+                                                              : snapshot.data![index].title,
+
+                                                        )),
+                                                  );
+                                                } else {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => PlayerMain(
+                                                          theTitle:
+                                                          snapshot.data?[index].title == null
+                                                              ? "title"
+                                                              : snapshot.data![index].title,
+                                                          theUrl:
+                                                          snapshot.data?[index].url == null
+                                                              ? "url"
+                                                              : snapshot.data![index].url,
+                                                          theCover:
+                                                          snapshot.data?[index].cover == null
                                                               ? "cover"
-                                                              : snapshot
-                                                              .data![index]
-                                                              .cover,
+                                                              : snapshot.data![index].cover,
                                                           theDescription: snapshot
-                                                              .data?[
-                                                          index]
-                                                              .description ==
+                                                              .data?[index].description ==
                                                               null
                                                               ? "description"
-                                                              : snapshot
-                                                              .data![index]
-                                                              .description,
+                                                              : snapshot.data![index].description,
                                                         )),
-                                              );
+                                                  );
+                                                }
+                                              }
                                             },
                                             child: Container(
                                                 height: MediaQuery.of(context)
