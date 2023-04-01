@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PageManager {
-  static const url =
-      'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
   late AudioPlayer _audioPlayer;
   final String theUrl;
 

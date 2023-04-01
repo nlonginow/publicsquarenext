@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,11 +10,16 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AskToRegister extends StatefulWidget {
+  late String userIsRegisteredMessage = "Not Registered.";
+  late bool userRegisteredState = false;
+  late Color userRegistrationColor = Colors.black;
+
   @override
   _AskToRegisterState createState() => _AskToRegisterState();
 }
 
 class _AskToRegisterState extends State<AskToRegister> {
+  bool isLoading = true;
 
   Future<void> _navigateAndDisplaySelection(BuildContext context) async {
     // Navigator.push returns a Future that completes after calling
@@ -23,15 +29,6 @@ class _AskToRegisterState extends State<AskToRegister> {
       MaterialPageRoute(builder: (context) => Register(sourcePage: 'ASKTOREGISTER')),
     );
 
-    // When a BuildContext is used from a StatefulWidget, the mounted property
-    // must be checked after an asynchronous gap.
-    // don't really care who the caller was in the return... if we got here,
-    // then it was from the ask to register page and we can pop back
-    // to the prior page which will be the displaypdf.
-    // tree
-    // displaypdf (which already preloaded the pdf file)
-    //   asktoregiser
-    //     register (drops back to asktoregister)
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -43,43 +40,49 @@ class _AskToRegisterState extends State<AskToRegister> {
 
   Future<bool> userIsRegistered() async {
     final prefs = await SharedPreferences.getInstance();
-    List<String> items = [];
-    // no local registration? then must register...
     var email = prefs.getString('email') ?? '';
     if (email == null || email == '') {
       return false;
     }
 
-    String API_USERNAME = "Admin";
-    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
-    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
-    final base64Str = base64.encode(bytes);
-    String AUTH = "Basic " + base64Str;
-    DateTime now = new DateTime.now();
-
-    final response = await http.get(
-        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
-        headers: <String, String>{
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'authorization': AUTH
-        });
-
-    print('checking if already registered');
     bool userExists = false;
-    if (response.statusCode == 200) {
-      List<dynamic> list = json.decode(response.body);
-      var item;
-      var myList = <AppUserItem>[];
-      for (item in list) {
-        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
-        print('comparing ' + email + ' to ' + anAppUserItem.email);
-        if (anAppUserItem.email == email) {
+    var db = FirebaseFirestore.instance;
+    await db.collection("TPSAppRegistered").get().then((querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        var theData = docSnapshot.data();
+
+        var valuesList = theData.values.toList();
+        var existingEmail = valuesList[4] as String;
+        if (existingEmail == email) {
           userExists = true;
           break;
         }
       }
+    });
+    var regMessage = '';
+    var regState = false;
+    var regColor = Colors.amber;
+
+    if (userExists == true) {
+      regMessage = 'You are already registered.';
+      regState = true;
+      regColor = Colors.teal;
+    } else {
+      regMessage = 'Not Registered.';
+      regState = false;
+      regColor = Colors.red;
     }
+    setState(() {
+      isLoading = false;
+      widget.userIsRegisteredMessage = regMessage;
+      widget.userRegisteredState = regState;
+      widget.userRegistrationColor = regColor;
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+
     return userExists;
   }
 
@@ -94,6 +97,11 @@ class _AskToRegisterState extends State<AskToRegister> {
     );
     super.initState();
   }
+
+  //
+  //  add the isloading indicator row
+  // add the text to say "not registered" if not so.
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +125,26 @@ class _AskToRegisterState extends State<AskToRegister> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Padding(
+                        padding: const EdgeInsets.only(
+                            top: 2.0, left: 20.0, bottom: 2.0),
+                        child: isLoading
+                            ? Center(child: CircularProgressIndicator())
+                            : new Text(
+                          widget.userIsRegisteredMessage,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: widget.userRegistrationColor,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Row(
                   children: <Widget>[
                     new Expanded(

@@ -45,7 +45,6 @@ class _RegisterState extends State<Register> {
     userIsRegistered(widget.email);
   }
 
-  // return 200 only if registered, else 404 (not found)
   Future<bool> userIsRegistered(String email) async {
     print('checking if already registered');
     bool userExists = false;
@@ -141,7 +140,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(
-                            top: 2.0, left: 20.0, bottom: 2.0),
+                            top: 2.0, left: 20.0, bottom: 10.0),
                         child: isLoading
                             ? Center(child: CircularProgressIndicator())
                             : new Text(

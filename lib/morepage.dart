@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:publicsquarenext/register.dart';
 
 import 'app_bottom_navigation.dart';
 import 'programlisting.dart';
@@ -95,9 +96,8 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProgramListing(
-                                podcastname: 'Common Good Blog',
-                              )),
+                              builder: (context) => Register(sourcePage: 'MANUALREGISTER')
+                          ),
                         );
                       }
                       break;
