@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:publicsquarenext/register.dart';
+import 'package:publicsquarenext/support.dart';
 
+import 'about.dart';
 import 'app_bottom_navigation.dart';
 import 'programlisting.dart';
 
@@ -106,8 +108,7 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProgramListing(
-                                podcastname: 'Monthly Update',
+                              builder: (context) => About(
                               )),
                         );
                       }
@@ -117,9 +118,7 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProgramListing(
-                                podcastname: 'Monthly Update',
-                              )),
+                              builder: (context) => Support()),
                         );
                       }
                       break;
@@ -149,8 +148,8 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
 //
 class MoreCardTypes {
   static const Register = 0;
-  static const Support = 1;
-  static const About = 2;
+  static const Support = 2;
+  static const About = 1;
 }
 
 class MoreChoiceCard extends StatelessWidget {
