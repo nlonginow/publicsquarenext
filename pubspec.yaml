@@ -39,6 +39,7 @@ dependencies:
   provider: ^6.0.5
   xml: ^3.7.0
   firebase_core : ^2.7.1
+  splashscreen: ^1.3.5
   eof_podcast_feed_local:
     path: ./eof_podcast_feed_local
 
