@@ -75,5 +75,6 @@ flutter:
     - assets/images/about.png
     - assets/images/register.png
     - assets/images/support.png
+    - assets/images/contact.png
 
   uses-material-design: true

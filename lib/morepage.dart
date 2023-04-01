@@ -5,6 +5,7 @@ import 'package:publicsquarenext/support.dart';
 
 import 'about.dart';
 import 'app_bottom_navigation.dart';
+import 'contact.dart';
 import 'programlisting.dart';
 
 class MorePage extends StatefulWidget {
@@ -15,18 +16,6 @@ class MorePage extends StatefulWidget {
 }
 
 class _MorePageState extends State<MorePage> {
-  Map<int, Color> color = {
-    50: const Color.fromRGBO(250, 202, 88, .1),
-    100: const Color.fromRGBO(250, 202, 88, .2),
-    200: const Color.fromRGBO(250, 202, 88, .3),
-    300: const Color.fromRGBO(250, 202, 88, .4),
-    400: const Color.fromRGBO(250, 202, 88, .5),
-    500: const Color.fromRGBO(250, 202, 88, .6),
-    600: const Color.fromRGBO(250, 202, 88, .7),
-    700: const Color.fromRGBO(250, 202, 88, .8),
-    800: const Color.fromRGBO(250, 202, 88, .9),
-    900: const Color.fromRGBO(250, 202, 88, 1),
-  };
 
   @override
   void initState() {
@@ -35,7 +24,6 @@ class _MorePageState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final MaterialColor colorCustom = MaterialColor(0xFFFACA58, color);
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
@@ -69,6 +57,8 @@ const List<Choice> choices = const [
       title: 'About', iconImageName: "assets/images/about.png"),
   const Choice(
       title: 'Support', iconImageName: "assets/images/support.png"),
+  const Choice(
+      title: 'Contact', iconImageName: "assets/images/contact.png"),
 ];
 
 class _MyMoreGridViewState extends State<MyMoreGridView> {
@@ -122,6 +112,15 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
                         );
                       }
                       break;
+                    case MoreCardTypes.Contact:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Contact()),
+                        );
+                      }
+                      break;
                     default:
                       {
                         //statements;
@@ -137,19 +136,16 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
             );
           }),
         ),
-        // ...... other list children.
       ],
     );
   }
 }
 
-//
-// Card details
-//
 class MoreCardTypes {
   static const Register = 0;
-  static const Support = 2;
   static const About = 1;
+  static const Support = 2;
+  static const Contact = 3;
 }
 
 class MoreChoiceCard extends StatelessWidget {
