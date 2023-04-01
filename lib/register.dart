@@ -1,17 +1,13 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
-import 'home.dart';
-
 class Register extends StatefulWidget {
-
   final String sourcePage;
+  late bool isAlreadyRegistered = false;
 
   Register({required this.sourcePage});
 
@@ -51,36 +47,22 @@ class _RegisterState extends State<Register> {
 
   // return 200 only if registered, else 404 (not found)
   Future<bool> userIsRegistered(String email) async {
-    String API_USERNAME = "Admin";
-    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
-    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
-    final base64Str = base64.encode(bytes);
-    String AUTH = "Basic " + base64Str;
-    DateTime now = new DateTime.now();
-
-    final response = await http.get(
-        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
-        headers: <String, String>{
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'authorization': AUTH
-        });
-
     print('checking if already registered');
     bool userExists = false;
-    if (response.statusCode == 200) {
-      List<dynamic> list = json.decode(response.body);
-      var item;
-      var myList = <AppUserItem>[];
-      for (item in list) {
-        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
-        print('comparing ' + email + ' to ' + anAppUserItem.email);
-        if (anAppUserItem.email == email) {
+    var db = FirebaseFirestore.instance;
+    await db.collection("TPSAppRegistered").get().then((querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        var theData = docSnapshot.data();
+
+        var valuesList = theData.values.toList();
+        var existingEmail = valuesList[4] as String;
+        if (existingEmail == email) {
           userExists = true;
+          widget.isAlreadyRegistered = true;
           break;
         }
       }
-    }
+    });
 
     print('got the value from check register');
     print(userExists);
@@ -159,7 +141,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(
-                            top: 5.0, left: 20.0, bottom: 5.0),
+                            top: 2.0, left: 20.0, bottom: 2.0),
                         child: isLoading
                             ? Center(child: CircularProgressIndicator())
                             : new Text(
@@ -179,7 +161,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(
-                            top: 20.0, left: 20.0, bottom: 25.0),
+                            top: 10.0, left: 20.0, bottom: 15.0),
                         child: new TextField(
                           controller: _firstNameTextFieldController,
                           autocorrect: false,
@@ -201,7 +183,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding:
-                            const EdgeInsets.only(left: 20.0, bottom: 25.0),
+                            const EdgeInsets.only(left: 20.0, bottom: 15.0),
                         child: new TextField(
                           controller: _lastNameTextFieldController,
                           autocorrect: false,
@@ -223,7 +205,7 @@ class _RegisterState extends State<Register> {
                     new Expanded(
                       child: new Padding(
                         padding:
-                            const EdgeInsets.only(left: 20.0, bottom: 25.0),
+                            const EdgeInsets.only(left: 20.0, bottom: 15.0),
                         child: new TextField(
                           controller: _emailTextFieldController,
                           autocorrect: false,
@@ -317,12 +299,13 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
                 Divider(
-                  height: 24.0,
+                  height: 15.0,
                   color: Colors.black54,
                 ),
                 new Wrap(
                   children: <Widget>[
                     new ElevatedButton(
+
                         onPressed: () async {
                           print('sending reg for: ' +
                               _firstNameTextFieldController.text +
@@ -336,20 +319,20 @@ class _RegisterState extends State<Register> {
                             isLoadingAfterRegister = true;
                           });
 
-                          int statusCode = await sendRegistration(
+                          String errorCode = await sendRegistration(
                               context,
                               _firstNameTextFieldController.text,
                               _lastNameTextFieldController.text,
                               _emailTextFieldController.text,
                               widget.chosenState);
-                          print(statusCode);
+                          print(errorCode);
                           setState(() {
                             isLoadingAfterRegister = false;
-                            if (statusCode == 200) {
+                            if (errorCode == 'success') {
                               widget.userRegistrationColor = Colors.green;
                               widget.userIsRegisteredMessage =
                                   'Registration was successful.';
-                            } else if (statusCode == 202) {
+                            } else if (errorCode == 'exists') {
                               widget.userRegistrationColor = Colors.black;
                               widget.userIsRegisteredMessage =
                                   'Did not register. You are already registered.';
@@ -403,74 +386,39 @@ class _RegisterState extends State<Register> {
         ));
   }
 
-  Future<int> sendRegistration(context, String firstName, String lastName,
+  Future<String> sendRegistration(context, String firstName, String lastName,
       String email, String chosenState) async {
-    String API_USERNAME = "Admin";
-    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
-    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
-    final base64Str = base64.encode(bytes);
-    String AUTH = "Basic " + base64Str;
-    DateTime now = new DateTime.now();
-    int statusCodeResponse = 404;
-
-    isLoadingAfterRegister = true;
-
-    print('starting send reg: get existing users');
-    var aResponse = await http.get(
-        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
-        headers: <String, String>{
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'authorization': AUTH
-        });
-
-    bool userExists = false;
-    if (aResponse.statusCode == 200) {
-      List<dynamic> list = json.decode(aResponse.body);
-      var item;
-      for (item in list) {
-        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
-        print('compare: ' + anAppUserItem.email + ' to ' + email);
-        if (anAppUserItem.email == email) {
-          print('***** found it');
-          userExists = true;
-          statusCodeResponse = 202;
-          break;
-        }
-      }
-      if (userExists == false) {
-        String uriStr = "https://configuremyapp.com/wp-json/jet-cct/appusers/";
-        print("POSTING to " + uriStr);
-        var response = await http.post(
-          Uri.parse(uriStr),
-          headers: <String, String>{
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'authorization': AUTH
-          },
-          body: jsonEncode(<String, String>{
-            'first_name': firstName,
-            'last_name': lastName,
-            'email': email,
-            'state': chosenState,
-            'app_version': 'Flutter Android',
-            'date_registered': now.toString(),
-          }),
-        );
-        statusCodeResponse = response.statusCode;
-      } else {
-        statusCodeResponse = 202;
-      }
+    if (widget.isAlreadyRegistered) {
+      return "exists";
     }
-    if (statusCodeResponse == 200) {
+    isLoadingAfterRegister = true;
+    String errorCode = "";
+
+    var isError = false as bool;
+    final data = {
+      "firstname": firstName,
+      "lastname": lastName,
+      "email": email,
+      "state": chosenState,
+      "registered": Timestamp.now(),
+      "version": "Flutter Android"
+    };
+    await FirebaseFirestore.instance
+        .collection("TPSAppRegistered")
+        .add(data)
+        .then((documentSnapshot) =>
+            print("Added Data with ID: ${documentSnapshot.id}"))
+        .onError((error, stackTrace) =>
+            {print("error adding registration $error"), isError = true});
+    if (isError == false) {
       ScaffoldMessenger.of(context).showSnackBar(registrationSavedSnackBar);
-    } else if (statusCodeResponse == 202) {
-      ScaffoldMessenger.of(context).showSnackBar(registrationExistsSnackBar);
+      errorCode = "success";
     } else {
       ScaffoldMessenger.of(context).showSnackBar(registrationFailedSnackBar);
+      errorCode = "failed";
     }
     isLoadingAfterRegister = false;
-    return statusCodeResponse;
+    return errorCode;
   }
 }
 
