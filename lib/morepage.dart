@@ -62,11 +62,11 @@ class Choice {
 
 const List<Choice> choices = const [
   const Choice(
-      title: 'Register', iconImageName: "assets/images/tps60.jpg"),
+      title: 'Register', iconImageName: "assets/images/register.png"),
   const Choice(
-      title: 'About', iconImageName: "assets/images/short.jpg"),
+      title: 'About', iconImageName: "assets/images/about.png"),
   const Choice(
-      title: 'Support', iconImageName: "assets/images/short.jpg"),
+      title: 'Support', iconImageName: "assets/images/support.png"),
 ];
 
 class _MyMoreGridViewState extends State<MyMoreGridView> {

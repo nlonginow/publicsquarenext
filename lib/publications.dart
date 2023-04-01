@@ -16,13 +16,11 @@ class PubsPage extends StatefulWidget {
 
 class _PubsPageState extends State<PubsPage> {
   final gridTitleItems = [
-    'Christmas in America',
     'Your Monthly Update',
     'Common Good Blog',
   ];
 
   final gridShowNames = [
-    'CIA',
     'Update',
     'Common Good Blog'
   ];
@@ -40,7 +38,7 @@ class _PubsPageState extends State<PubsPage> {
           new Container(
             child: new ListView.builder(
               shrinkWrap: true,
-              itemCount: 3,
+              itemCount: 2,
               physics: ScrollPhysics(),
               itemBuilder: (context, outerIndex) {
                 return new Column(

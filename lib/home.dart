@@ -35,7 +35,7 @@ class _PrimaryAppState extends State<PrimaryApp> {
     tabItem('Programs', Icons.podcasts_sharp),
     tabItem('Publications', Icons.document_scanner_sharp),
     tabItem('AudioBook', Icons.audiotrack),
-    tabItem('More', Icons.more),
+    tabItem('More', Icons.more_horiz_rounded),
   ];
 
   var selectedItem = '';

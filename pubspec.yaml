@@ -72,5 +72,8 @@ flutter:
     - assets/images/thinking.png
     - assets/images/blog.jpg
     - assets/images/gilbertandjack.jpg
+    - assets/images/about.png
+    - assets/images/register.png
+    - assets/images/support.png
 
   uses-material-design: true

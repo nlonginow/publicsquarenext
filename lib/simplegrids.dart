@@ -18,19 +18,15 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
 
   final gridTitleItems = [
     'TPS60',
-    'TPS2',
     'TPS Express',
-//    'Christmas in America',
-//    'Monthly Update'
+    'Christmas in America',
     'The Pine'
   ];
 
   final gridShowNames = [
     'TPS60',
-    'TPS2',
     'TPSExpress',
-//    'CIA',
-//    'Update',
+    'CIA',
     'The Pine Podcast'
   ];
 
