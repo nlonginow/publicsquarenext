@@ -80,11 +80,11 @@ class _PrimaryAppState extends State<PrimaryApp> {
         ),
       bottomNavigationBar: BottomNavigation(
           arrBottomItems: arrBottomItems,
-          backgroundColor: colorCustom,
+          backgroundColor: Colors.black,//colorCustom,
           showSelectedLables: true,
           showUnselectedLables: true,
-          color: Colors.black,
-          selectedColor: Colors.white),
+          color: Colors.white70,
+          selectedColor: Colors.green),
     );
   }
 }

@@ -34,7 +34,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Podcasts'),
+        title: Text('Programs'),
       ),
       body: new ListView(
         shrinkWrap: true,
@@ -49,7 +49,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                 return new Column(
                   children: <Widget>[
                     new Container(
-                      height: 50.0,
+                      height: 35.0,
                       color: Colors.indigo,
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                               padding: const EdgeInsets.only(right: 5.0)),
                           new Text(gridTitleItems[outerIndex],
                               style: new TextStyle(
-                                  fontSize: 20.0, color: Colors.white)),
+                                  fontSize: 18.0, color: Colors.white)),
                         ],
                       ),
                     ),

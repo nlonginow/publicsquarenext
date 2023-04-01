@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:publicsquarenext/playermain.dart';
-
-import 'app_bottom_navigation.dart';
 import 'displaypage.dart';
 import 'displaypdfpage.dart';
 import 'programlisting.dart';
@@ -44,7 +42,7 @@ class _PubsPageState extends State<PubsPage> {
                 return new Column(
                   children: <Widget>[
                     new Container(
-                      height: 50.0,
+                      height: 35.0,
                       color: Colors.indigo,
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +51,7 @@ class _PubsPageState extends State<PubsPage> {
                               padding: const EdgeInsets.only(right: 5.0)),
                           new Text(gridTitleItems[outerIndex],
                               style: new TextStyle(
-                                  fontSize: 20.0, color: Colors.white)),
+                                  fontSize: 18.0, color: Colors.white)),
                         ],
                       ),
                     ),
