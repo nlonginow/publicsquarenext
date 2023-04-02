@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:publicsquarenext/register.dart';
-import 'package:publicsquarenext/support.dart';
+import 'package:publicsquarenext/themore/register.dart';
+import 'package:publicsquarenext/themore/support.dart';
 
-import 'about.dart';
+import 'themore/about.dart';
 import 'app_bottom_navigation.dart';
 import 'home.dart';
 

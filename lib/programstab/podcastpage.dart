@@ -1,21 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:publicsquarenext/register.dart';
-import 'package:publicsquarenext/support.dart';
 
-import 'about.dart';
-import 'app_bottom_navigation.dart';
-import 'contact.dart';
-import 'programlisting.dart';
+import '../app_bottom_navigation.dart';
+import '../programlisting.dart';
 
-class MorePage extends StatefulWidget {
-  const MorePage();
+class PodcastPage extends StatefulWidget {
+  const PodcastPage();
 
   @override
-  _MorePageState createState() => _MorePageState();
+  _PodcastPageState createState() => _PodcastPageState();
 }
 
-class _MorePageState extends State<MorePage> {
+class _PodcastPageState extends State<PodcastPage> {
+  Map<int, Color> color = {
+    50: const Color.fromRGBO(250, 202, 88, .1),
+    100: const Color.fromRGBO(250, 202, 88, .2),
+    200: const Color.fromRGBO(250, 202, 88, .3),
+    300: const Color.fromRGBO(250, 202, 88, .4),
+    400: const Color.fromRGBO(250, 202, 88, .5),
+    500: const Color.fromRGBO(250, 202, 88, .6),
+    600: const Color.fromRGBO(250, 202, 88, .7),
+    700: const Color.fromRGBO(250, 202, 88, .8),
+    800: const Color.fromRGBO(250, 202, 88, .9),
+    900: const Color.fromRGBO(250, 202, 88, 1),
+  };
+
+  final arrBottomItems = [
+    tabItem('Programs', Icons.podcasts_sharp),
+    tabItem('Publications2', Icons.document_scanner_sharp),
+    tabItem('AudioBook', Icons.audiotrack),
+    tabItem('More', Icons.more),
+  ];
+
+  var selectedItem = '';
 
   @override
   void initState() {
@@ -24,22 +41,23 @@ class _MorePageState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
+    final MaterialColor colorCustom = MaterialColor(0xFFFACA58, color);
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.white),
-            title: Text("More"),
+            title: Text("Podcasts"),
             brightness: Brightness.dark),
-        body: MyMoreGridView());
+        body: MyPodcastGridView());
   }
 }
 
-class MyMoreGridView extends StatefulWidget {
-  const MyMoreGridView();
+class MyPodcastGridView extends StatefulWidget {
+  const MyPodcastGridView();
 
   @override
   State<StatefulWidget> createState() {
-    return _MyMoreGridViewState();
+    return _MyPodcastGridViewState();
   }
 }
 
@@ -52,16 +70,19 @@ class Choice {
 
 const List<Choice> choices = const [
   const Choice(
-      title: 'Register', iconImageName: "assets/images/register.png"),
+      title: '60 Minute Program', iconImageName: "assets/images/tps60.jpg"),
   const Choice(
-      title: 'About', iconImageName: "assets/images/about.png"),
+      title: '2 Minute Program', iconImageName: "assets/images/short.jpg"),
   const Choice(
-      title: 'Support', iconImageName: "assets/images/support.png"),
+      title: 'TPS Express Program', iconImageName: "assets/images/express.jpg"),
   const Choice(
-      title: 'Contact', iconImageName: "assets/images/contact.png"),
+      title: 'Christmas in America', iconImageName: "assets/images/cia.jpg"),
+  const Choice(
+      title: 'The Pine Podcast',
+      iconImageName: "assets/images/ridingthepine.png"),
 ];
 
-class _MyMoreGridViewState extends State<MyMoreGridView> {
+class _MyPodcastGridViewState extends State<MyPodcastGridView> {
   @override
   void initState() {
     super.initState();
@@ -83,41 +104,58 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
               child: InkWell(
                 onTap: () {
                   switch (index) {
-                    case MoreCardTypes.Register:
+                    case PodcastCardTypes.TPS60:
                       {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Register(sourcePage: 'MANUALREGISTER')
-                          ),
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'TPS60',
+                                  )), //FinisherLessons(user: _currentUser, currentPage: 1,)),
                         );
                       }
                       break;
-                    case MoreCardTypes.About:
+                    case PodcastCardTypes.TPS2:
                       {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => About(
-                              )),
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'TPS2',
+                                  )),
                         );
                       }
                       break;
-                    case MoreCardTypes.Support:
+                    case PodcastCardTypes.TPSExpress:
                       {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Support()),
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'TPSExpress',
+                                  )),
                         );
                       }
                       break;
-                    case MoreCardTypes.Contact:
+                    case PodcastCardTypes.Christmas:
                       {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Contact()),
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'CIA',
+                                  )),
+                        );
+                      }
+                      break;
+                    case PodcastCardTypes.ThePine:
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgramListing(
+                                    podcastname: 'The Pine Podcast',
+                                  )),
                         );
                       }
                       break;
@@ -128,7 +166,7 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
                       break;
                   }
                 },
-                child: new MoreChoiceCard(
+                child: new PodcastChoiceCard(
                   choice: choices[index],
                   key: Key("title"),
                 ),
@@ -136,20 +174,25 @@ class _MyMoreGridViewState extends State<MyMoreGridView> {
             );
           }),
         ),
+        // ...... other list children.
       ],
     );
   }
 }
 
-class MoreCardTypes {
-  static const Register = 0;
-  static const About = 1;
-  static const Support = 2;
-  static const Contact = 3;
+//
+// Card details
+//
+class PodcastCardTypes {
+  static const TPS60 = 0;
+  static const TPS2 = 1;
+  static const TPSExpress = 2;
+  static const Christmas = 3;
+  static const ThePine = 4;
 }
 
-class MoreChoiceCard extends StatelessWidget {
-  const MoreChoiceCard({required Key key, required this.choice})
+class PodcastChoiceCard extends StatelessWidget {
+  const PodcastChoiceCard({required Key key, required this.choice})
       : super(key: key);
 
   final Choice choice;

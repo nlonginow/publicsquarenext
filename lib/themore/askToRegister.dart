@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:publicsquarenext/home.dart';
-import 'package:publicsquarenext/register.dart';
+import 'package:publicsquarenext/themore/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -97,11 +97,6 @@ class _AskToRegisterState extends State<AskToRegister> {
     );
     super.initState();
   }
-
-  //
-  //  add the isloading indicator row
-  // add the text to say "not registered" if not so.
-  //
 
   @override
   Widget build(BuildContext context) {

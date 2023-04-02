@@ -33,6 +33,7 @@ class _PubsPageState extends State<PubsPage> {
         shrinkWrap: true,
         physics: ScrollPhysics(),
         children: <Widget>[
+          Padding(padding: EdgeInsets.all(2.0)),
           new Container(
             child: new ListView.builder(
               shrinkWrap: true,

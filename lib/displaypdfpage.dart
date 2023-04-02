@@ -6,10 +6,10 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:publicsquarenext/register.dart';
+import 'package:publicsquarenext/themore/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'askToRegister.dart';
+import 'themore/askToRegister.dart';
 
 const List<Color> _kDefaultRainbowColors = const [
   Colors.red,

@@ -40,6 +40,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
         shrinkWrap: true,
         physics: ScrollPhysics(),
         children: <Widget>[
+          Padding(padding: EdgeInsets.all(2.0)),
           new Container(
             child: new ListView.builder(
               shrinkWrap: true,

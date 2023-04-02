@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:publicsquarenext/podcastpage.dart';
+import 'package:publicsquarenext/programstab/podcastpage.dart';
 import 'package:publicsquarenext/publications.dart';
-import 'package:publicsquarenext/register.dart';
-import 'package:publicsquarenext/simplegrids.dart';
+import 'package:publicsquarenext/themore/register.dart';
+import 'package:publicsquarenext/programstab/simplegrids.dart';
 import 'app_bottom_navigation.dart';
 import 'audiobook.dart';
-import 'morepage.dart';
+import 'themore/morepage.dart';
 import 'programlisting.dart';
 
 class PrimaryApp extends StatefulWidget {
