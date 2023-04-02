@@ -50,7 +50,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                   children: <Widget>[
                     new Container(
                       height: 35.0,
-                      color: Colors.indigo,
+                      color: Colors.black,
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -63,7 +63,7 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                       ),
                     ),
                     new Container(
-                        height: 150.0, // this will have the future in it
+                        height: 210.0, // this will have the future in it
                         child: FutureBuilder<List<PodcastItem>>(
                             future:
                                 getShowsForProgram(gridShowNames[outerIndex]),
@@ -132,20 +132,19 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                                               );
                                             },
                                             child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    3,
+                                                height: 95,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    3,
+                                                    2.7,
                                                 alignment: Alignment.center,
                                                 child: new Column(
                                                     children: <Widget>[
+                                                      new Padding(
+                                                          padding: const EdgeInsets.only(top: 5.0)),
                                                       Container(
-                                                          width: 75,
-                                                          height: 75,
+                                                          width: 115,
+                                                          height: 115,
                                                           color: Colors.white,
                                                           child: ClipRect(
                                                             child: Container(
@@ -163,14 +162,32 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
                                                                       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10.0), image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(snapshot.data![index].cover))))),
                                                             ),
                                                           )),
-                                                      new Text(snapshot
+                                            SizedBox(
+                                                width: 150,
+                                                child:
+                                                Flexible(
+                                                        child: new Container(
+                                                          padding: new EdgeInsets.only(left: 7.0, top: 5.0, right: 10.0),
+                                                          child: new Text(
+                                                              snapshot
                                                                   .data?[index]
                                                                   .title ==
-                                                              null
-                                                          ? "title"
-                                                          : snapshot
-                                                              .data![index]
-                                                              .title),
+                                                                  null
+                                                                  ? "title"
+                                                                  : snapshot
+                                                                  .data![index]
+                                                                  .title,
+                                                            maxLines: 3,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: new TextStyle(
+                                                              fontSize: 16.0,
+                                                              fontFamily: 'Roboto',
+                                                              color: new Color(0xFF212121),
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )),
                                                     ]))),
                                       );
                                     });

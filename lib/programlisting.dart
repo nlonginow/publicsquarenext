@@ -415,10 +415,12 @@ Future<List<PodcastItem>> getShowsForProgram(String theName) async {
         String strippedUrl = sUrl.substring(0, idxMp3 + 4);
         String title = episodes[i].title;
         idx = title.indexOf('TPS Express');
+
         // include only TPS Express titles...
         if (idx >= 0) {
+          title = title.substring(idx+13) ;
           PodcastItem anItem = PodcastItem(
-              title: episodes[i].title,
+              title: title,
               description: theDescription,
               pubDate: episodes[i].pubDate,
               url: strippedUrl,
