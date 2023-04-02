@@ -130,15 +130,16 @@ class _AskToRegisterState extends State<AskToRegister> {
                     new Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(
-                            top: 2.0, left: 20.0, bottom: 2.0),
+                            top: 10.0, left: 20.0, bottom: 2.0),
                         child: isLoading
                             ? Center(child: CircularProgressIndicator())
                             : new Text(
                           widget.userIsRegisteredMessage,
-                          style: TextStyle(
+                          style: new TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.red,
                             fontWeight: FontWeight.bold,
-                            color: widget.userRegistrationColor,
-                            fontSize: 14.0,
                           ),
                         ),
                       ),
@@ -154,10 +155,11 @@ class _AskToRegisterState extends State<AskToRegister> {
                         child: new Text(
                           'Please register to stay connected with The Public Square. We value your partnership. Your email is never sold, marketed or used to create email spam. '
                               'Any email you might receive from us will include an unsubscribe link.',
-                          style: TextStyle(
+                          style: new TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: 'Roboto',
+                            color: Colors.blueGrey,
                             fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                            fontSize: 14.0,
                           ),
                         ),
                       ),

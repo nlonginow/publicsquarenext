@@ -43,7 +43,7 @@ class _PubsPageState extends State<PubsPage> {
                   children: <Widget>[
                     new Container(
                       height: 35.0,
-                      color: Colors.indigo,
+                      color: Colors.black,
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -56,7 +56,7 @@ class _PubsPageState extends State<PubsPage> {
                       ),
                     ),
                     new Container(
-                        height: 150.0, // this will have the future in it
+                        height: 200.0, // this will have the future in it
                         child: FutureBuilder<List<PodcastItem>>(
                             future:
                             getShowsForProgram(gridShowNames[outerIndex]),
@@ -81,7 +81,7 @@ class _PubsPageState extends State<PubsPage> {
                                         child: InkWell(
                                             onTap: () {
                                               {
-                                                if (outerIndex == 1) {
+                                                if (outerIndex == 0) {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -102,7 +102,7 @@ class _PubsPageState extends State<PubsPage> {
                                                         )),
                                                   );
                                                 }
-                                                else if (outerIndex == 2) {
+                                                else if (outerIndex == 1) {
                                                   if (snapshot.data?[index].url != null) {
                                                     print('url is ' + snapshot.data![index].url);
                                                   }
@@ -121,48 +121,21 @@ class _PubsPageState extends State<PubsPage> {
 
                                                         )),
                                                   );
-                                                } else {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => PlayerMain(
-                                                          theTitle:
-                                                          snapshot.data?[index].title == null
-                                                              ? "title"
-                                                              : snapshot.data![index].title,
-                                                          theUrl:
-                                                          snapshot.data?[index].url == null
-                                                              ? "url"
-                                                              : snapshot.data![index].url,
-                                                          theCover:
-                                                          snapshot.data?[index].cover == null
-                                                              ? "cover"
-                                                              : snapshot.data![index].cover,
-                                                          theDescription: snapshot
-                                                              .data?[index].description ==
-                                                              null
-                                                              ? "description"
-                                                              : snapshot.data![index].description,
-                                                        )),
-                                                  );
                                                 }
                                               }
                                             },
                                             child: Container(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                    3,
+                                                height: 95,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                    3,
+                                                    2.7,
                                                 alignment: Alignment.center,
                                                 child: new Column(
                                                     children: <Widget>[
                                                       Container(
-                                                          width: 75,
-                                                          height: 75,
+                                                          width: 115,
+                                                          height: 115,
                                                           color: Colors.white,
                                                           child: ClipRect(
                                                             child: Container(
@@ -186,15 +159,32 @@ class _PubsPageState extends State<PubsPage> {
                                                                   )),
                                                             ),
                                                           ),
-                                                      new Text(snapshot
-                                                          .data?[index]
-                                                          .title ==
-                                                          null
-                                                          ? "title"
-                                                          : snapshot
-                                                          .data![index]
-                                                          .title),
-                                                    ]))),
+                                                      SizedBox(
+                                                          width: 150,
+                                                          child:
+                                                          Flexible(
+                                                            child: new Container(
+                                                              padding: new EdgeInsets.only(left: 7.0, top: 9.0, right: 10.0),
+                                                              child: new Text(
+                                                                snapshot
+                                                                    .data?[index]
+                                                                    .title ==
+                                                                    null
+                                                                    ? "title"
+                                                                    : snapshot
+                                                                    .data![index]
+                                                                    .title,
+                                                                maxLines: 3,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: new TextStyle(
+                                                                  fontSize: 16.0,
+                                                                  fontFamily: 'Roboto',
+                                                                  color: new Color(0xFF212121),
+                                                                  fontWeight: FontWeight.bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )),                                                    ]))),
                                       );
                                     });
                               } else {
