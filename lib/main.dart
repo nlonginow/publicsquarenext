@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+// Initialize the app to the Firebase project, and authenticate to the admin user
 void initializeFirebase() async {
   await Firebase.initializeApp(
     name: 'myCustomApp',
@@ -32,6 +34,11 @@ void initializeFirebase() async {
       messagingSenderId: '544405577623',
       projectId: 'tpsmobile-f19f3',
     ),
+  );
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  await _auth.signInWithEmailAndPassword(
+    email: "nicklonginow@gmail.com",
+    password: "P@ssw0rd060504",
   );
 }
 

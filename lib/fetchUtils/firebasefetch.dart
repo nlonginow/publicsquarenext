@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/programtypes.dart';
@@ -31,6 +32,15 @@ Future<List<MonthlyUpdateItem>> fetchMonthlyUpdateItems() async {
 }
 
 Future<List<ChristmasItem>> fetchChristmasItems() async {
+
+//  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+ // UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+  //    email: "nicklonginow@gmail.com",
+  //    password: "P@ssw0rd060504",
+  //  );
+ // User? user = _auth.currentUser;
+ // String? token = await user?.getIdToken();
 
   List<ChristmasItem> ciaItems = <ChristmasItem>[];
   var db = FirebaseFirestore.instance;
