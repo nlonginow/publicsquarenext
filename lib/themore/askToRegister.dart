@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:publicsquarenext/home.dart';
+import 'package:publicsquarenext/main.dart';
 import 'package:publicsquarenext/themore/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../publications.dart';
 
 class AskToRegister extends StatefulWidget {
   late String userIsRegisteredMessage = "Not Registered.";
@@ -54,7 +57,7 @@ class _AskToRegisterState extends State<AskToRegister> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PrimaryApp(
+                      builder: (context) => MyApp(
                       )),
                 );
               },
