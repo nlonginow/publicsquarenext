@@ -38,63 +38,10 @@ class _AskToRegisterState extends State<AskToRegister> {
     print('did update called');
   }
 
-  Future<bool> userIsRegistered() async {
-    final prefs = await SharedPreferences.getInstance();
-    var email = prefs.getString('email') ?? '';
-    if (email == null || email == '') {
-      return false;
-    }
-
-    bool userExists = false;
-    var db = FirebaseFirestore.instance;
-    await db.collection("TPSAppRegistered").get().then((querySnapshot) {
-      for (var docSnapshot in querySnapshot.docs) {
-        var theData = docSnapshot.data();
-
-        var valuesList = theData.values.toList();
-        var existingEmail = valuesList[4] as String;
-        if (existingEmail == email) {
-          userExists = true;
-          break;
-        }
-      }
-    });
-    var regMessage = '';
-    var regState = false;
-    var regColor = Colors.amber;
-
-    if (userExists == true) {
-      regMessage = 'You are already registered.';
-      regState = true;
-      regColor = Colors.teal;
-    } else {
-      regMessage = 'Not Registered.';
-      regState = false;
-      regColor = Colors.red;
-    }
-    setState(() {
-      isLoading = false;
-      widget.userIsRegisteredMessage = regMessage;
-      widget.userRegisteredState = regState;
-      widget.userRegistrationColor = regColor;
-    });
-
-    setState(() {
-      isLoading = false;
-    });
-
-    return userExists;
-  }
-
   @override
   void initState() {
-    userIsRegistered().then((result) {
-      print("userisregistered result: $result");
-      if (result == true) {  // then we got here as a Pop from Register page; pop back to the PDF page
-        Navigator.of(context).pop();
-      }
-    }
-    );
+    // if got here, it's because displayPdf checked and found not registered
+    // no need to check again...
     super.initState();
   }
 
@@ -120,27 +67,6 @@ class _AskToRegisterState extends State<AskToRegister> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, left: 20.0, bottom: 2.0),
-                        child: isLoading
-                            ? Center(child: CircularProgressIndicator())
-                            : new Text(
-                          widget.userIsRegisteredMessage,
-                          style: new TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'Roboto',
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 Row(
                   children: <Widget>[
                     new Expanded(
@@ -193,7 +119,6 @@ class _AskToRegisterState extends State<AskToRegister> {
                         )),
                   ],
                 ),
-
               ],
             ),
           ),

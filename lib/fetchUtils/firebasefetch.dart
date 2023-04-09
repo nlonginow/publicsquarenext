@@ -32,16 +32,6 @@ Future<List<MonthlyUpdateItem>> fetchMonthlyUpdateItems() async {
 }
 
 Future<List<ChristmasItem>> fetchChristmasItems() async {
-
-//  final FirebaseAuth _auth = FirebaseAuth.instance;
-
- // UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-  //    email: "nicklonginow@gmail.com",
-  //    password: "P@ssw0rd060504",
-  //  );
- // User? user = _auth.currentUser;
- // String? token = await user?.getIdToken();
-
   List<ChristmasItem> ciaItems = <ChristmasItem>[];
   var db = FirebaseFirestore.instance;
   await db.collection("CIAPrograms").get().then((querySnapshot) {
@@ -67,3 +57,22 @@ Future<List<ChristmasItem>> fetchChristmasItems() async {
   return ciaItems;
 }
 
+Future<bool> fetchUserByEmail(String checkThisEmail) async {
+  var userExists = false;
+  var db = FirebaseFirestore.instance;
+  await db.collection("TPSRegistered").get().then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+      var theData = docSnapshot.data();
+      var valuesList = theData.values.toList();
+
+      // registered, email
+      var descStr = valuesList[0];
+      var existingEmail = valuesList[1] as String;
+      if (existingEmail == checkThisEmail) {
+        userExists = true;
+        break;
+      }
+    }
+  });
+  return userExists;
+}

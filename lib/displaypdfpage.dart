@@ -6,6 +6,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:publicsquarenext/fetchUtils/firebasefetch.dart';
 import 'package:publicsquarenext/themore/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,41 +66,14 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
   Future<bool> userIsRegistered() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> items = [];
+    var userExists = false;
     // no local registration? then must register...
     var email = prefs.getString('email') ?? '';
     if (email == null || email == '') {
       return false;
     }
-
-    String API_USERNAME = "Admin";
-    String API_PASSWORD = "pUQJ cKPv ku0q itbP 2Q5y Xasx";
-    final bytes = utf8.encode(API_USERNAME + ":" + API_PASSWORD);
-    final base64Str = base64.encode(bytes);
-    String AUTH = "Basic " + base64Str;
-    DateTime now = new DateTime.now();
-
-    final response = await http.get(
-        Uri.parse('https://configuremyapp.com/wp-json/jet-cct/appusers'),
-        headers: <String, String>{
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'authorization': AUTH
-        });
-
-    print('checking if already registered');
-    bool userExists = false;
-    if (response.statusCode == 200) {
-      List<dynamic> list = json.decode(response.body);
-      var item;
-      var myList = <AppUserItem>[];
-      for (item in list) {
-        AppUserItem anAppUserItem = AppUserItem.fromJson(item);
-        print('comparing ' + email + ' to ' + anAppUserItem.email);
-        if (anAppUserItem.email == email) {
-          userExists = true;
-          break;
-        }
-      }
+    else {
+      userExists = await fetchUserByEmail(email);
     }
     return userExists;
   }
