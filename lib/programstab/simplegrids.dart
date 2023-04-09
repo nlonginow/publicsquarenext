@@ -19,15 +19,15 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
   final gridTitleItems = [
     'TPS60',
     'TPS Express',
-    'Christmas in America',
-    'The Pine'
+    'The Pine',
+    'Christmas in America'
   ];
 
   final gridShowNames = [
     'TPS60',
     'TPSExpress',
-    'CIA',
-    'The Pine Podcast'
+    'The Pine Podcast',
+    'CIA'
   ];
 
   @override
@@ -40,7 +40,6 @@ class _SimpleGridsPageState extends State<SimpleGridsPage> {
         shrinkWrap: true,
         physics: ScrollPhysics(),
         children: <Widget>[
-          Padding(padding: EdgeInsets.all(2.0)),
           new Container(
             child: new ListView.builder(
               shrinkWrap: true,

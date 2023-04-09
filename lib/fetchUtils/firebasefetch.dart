@@ -60,14 +60,11 @@ Future<List<ChristmasItem>> fetchChristmasItems() async {
 Future<bool> fetchUserByEmail(String checkThisEmail) async {
   var userExists = false;
   var db = FirebaseFirestore.instance;
-  await db.collection("TPSRegistered").get().then((querySnapshot) {
+  await db.collection("TPSAppRegistered").get().then((querySnapshot) {
     for (var docSnapshot in querySnapshot.docs) {
       var theData = docSnapshot.data();
       var valuesList = theData.values.toList();
-
-      // registered, email
-      var descStr = valuesList[0];
-      var existingEmail = valuesList[1] as String;
+      var existingEmail = valuesList[4] as String;
       if (existingEmail == checkThisEmail) {
         userExists = true;
         break;

@@ -112,10 +112,10 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
     print(urlPDFPath);
     if (loaded) {
       return Scaffold(
-//        appBar: new AppBar(
-//            title: Text(widget.title,
-//                style: TextStyle(fontWeight: FontWeight.w700)),
-//            centerTitle: true),
+        appBar: new AppBar(
+            title: Text(widget.title,
+                style: TextStyle(fontWeight: FontWeight.w700)),
+            centerTitle: true),
         body: PDFView(
           filePath: urlPDFPath,
           autoSpacing: true,
