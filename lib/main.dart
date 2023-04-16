@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,6 +41,10 @@ void initializeFirebase() async {
     email: "nicklonginow@gmail.com",
     password: "P@ssw0rd060504",
   );
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  FirebaseAnalyticsObserver observer =
+  FirebaseAnalyticsObserver(analytics: analytics);
+  analytics.setCurrentScreen(screenName: 'MainScreen');
 }
 
 class MyApp extends StatelessWidget {

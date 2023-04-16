@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
@@ -102,6 +103,10 @@ class _DisplayRemotePDFState extends State<DisplayRemotePDF> {
         Navigator.push(
           context, MaterialPageRoute(builder: (context) => AskToRegister()));
       }
+      FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+      FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+      analytics.setCurrentScreen(screenName: 'MonthlyUpdatePage');
       setState(() {});
     });
     super.initState();

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:publicsquarenext/playermain.dart';
@@ -13,6 +14,10 @@ class SimpleGridsPage extends StatefulWidget {
 class _SimpleGridsPageState extends State<SimpleGridsPage> {
   @override
   void initState() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    FirebaseAnalyticsObserver observer =
+    FirebaseAnalyticsObserver(analytics: analytics);
+    analytics.setCurrentScreen(screenName: 'ProgramsPage');
     super.initState();
   }
 

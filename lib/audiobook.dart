@@ -1,4 +1,5 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -29,6 +30,10 @@ class _AudioBookState extends State<AudioBook> {
     widget.theUrl = "https://s3.amazonaws.com/greatnorthsoftware.com/gilbertandjackforapp.mp3";
     super.initState();
     _pageManager = PageManager(theUrl: widget.theUrl);
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    FirebaseAnalyticsObserver observer =
+    FirebaseAnalyticsObserver(analytics: analytics);
+    analytics.setCurrentScreen(screenName: 'AudioBookPage');
   }
 
   @override

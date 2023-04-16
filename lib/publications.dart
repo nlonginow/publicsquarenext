@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:publicsquarenext/playermain.dart';
@@ -13,6 +14,16 @@ class PubsPage extends StatefulWidget {
 }
 
 class _PubsPageState extends State<PubsPage> {
+
+  @override
+  void initState() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    FirebaseAnalyticsObserver observer =
+    FirebaseAnalyticsObserver(analytics: analytics);
+    analytics.setCurrentScreen(screenName: 'PublicationsPage');
+    super.initState();
+  }
+
   final gridTitleItems = [
     'Your Monthly Update',
     'Common Good Blog',
